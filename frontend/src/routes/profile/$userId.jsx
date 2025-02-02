@@ -20,7 +20,7 @@ function RouteComponent() {
      * Think of this as like an enum */
     const Tabs = Object.freeze({
         posts: <PostFeed posts={profileData.posts} />,
-        saved: <></>, // TODO: Insert saved tab component
+        saved: <PostFeed posts={profileData.savedPosts} />,
         edit: <></>, // TODO: Insert edit tab component
     });
 
@@ -47,7 +47,9 @@ function RouteComponent() {
                     </button>
                 </div>
             </div>
-            {Tabs[currentTab]}
+            <div className='w-75'>
+                {Tabs[currentTab]}
+            </div>
         </div >
     )
 }

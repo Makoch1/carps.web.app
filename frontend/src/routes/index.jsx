@@ -13,6 +13,15 @@ export const Route = createFileRoute('/')({
         // Retrieves data from the loader
         const loadedPosts = Route.useLoaderData();
 
-        return <PostFeed posts={loadedPosts} />
+        return (
+            <div className="d-flex">
+                <div className="w-25">
+
+                </div>
+                <div className="w-75">
+                    <PostFeed posts={loadedPosts} />
+                </div>
+            </div>
+        )
     }
 })
