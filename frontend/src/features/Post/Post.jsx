@@ -1,6 +1,32 @@
+import { useState } from 'react';
 import { UserIcon } from '../../components/userIcon.jsx'
 
 export function Post({ postDetails }) {
+    const [upvote, setUpvote] = useState(0);
+    const [saved, setSaved] = useState(false); // TODO: next time, instead of false, check backend if post is saved
+
+    // TODO: since PostPreview uses the same logic, maybe make a custom hook for upvote system?
+    const upvoteColor = () => {
+        switch (upvote) {
+            case -1: return 'lightblue';
+            case 0: return 'white';
+            case 1: return 'orangered';
+        }
+    }
+
+    function handleUpvote() {
+        upvote === 1 ? setUpvote(0) : setUpvote(1);
+    }
+
+    function handleDownvote() {
+        upvote === -1 ? setUpvote(0) : setUpvote(-1);
+    }
+
+    function handleSave() {
+        // once backend is done, add a call to backend
+        setSaved(!saved)
+    }
+
     return (
         <div className="w-50 mx-auto mt-3">
             <div className="d-flex gap-3 align-items-end">
@@ -29,11 +55,15 @@ export function Post({ postDetails }) {
             </p>
             <div className='d-flex gap-3'>
                 <div className='d-flex align-items-center bg-secondary rounded-pill'>
-                    <button className='btn bg-transparent btn-outline-primary border-0'>
+                    <button
+                        className='btn bg-transparent btn-outline-primary border-0'
+                        onClick={handleUpvote}>
                         <i className='bi bi-chevron-up'></i>
                     </button>
-                    <span className='mx-2 fw-bold'>{postDetails.upvotes}</span>
-                    <button className='btn bg-transparent btn-outline-primary border-0'>
+                    <span className='mx-2 fw-bold' style={{ color: upvoteColor() }}>{postDetails.upvotes + upvote}</span>
+                    <button
+                        className='btn bg-transparent btn-outline-primary border-0'
+                        onClick={handleDownvote}>
                         <i className='bi bi-chevron-down'></i>
                     </button>
                 </div>
@@ -41,7 +71,9 @@ export function Post({ postDetails }) {
                     <i className='bi bi-chat-left small'></i>
                     <span className='fw-bold'>{postDetails.comments.length}</span>
                 </div>
-                <button className='btn btn-secondary rounded-pill fw-bold'>
+                <button
+                    className={`btn btn-${saved ? 'primary' : 'secondary'} rounded-pill fw-bold`}
+                    onClick={handleSave}>
                     <i class="bi bi-download me-2"></i>
                     Save
                 </button>
