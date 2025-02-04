@@ -29,5 +29,9 @@ input::placeholder {
   background: #41423e;
 }
 
+img{
+  max-width: 25%; 
+}
+
 @import "~bootstrap/scss/bootstrap";
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";@import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
