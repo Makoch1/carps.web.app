@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useUpvote } from '../../hooks/useUpvote.js'
 import { UserIcon } from '../../components/UserIcon.jsx'
 import { Comment } from './Comment.jsx'
+import { Link } from '@tanstack/react-router';
 
 export function Post({ postDetails }) {
     const [upvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
@@ -10,6 +11,11 @@ export function Post({ postDetails }) {
     function handleSave() {
         // once backend is done, add a call to backend
         setSaved(!saved)
+    }
+
+    function handleDelete() {
+        // TODO: change to a backend call
+        window.alert("Are you sure about that?")
     }
 
     return (
@@ -67,8 +73,20 @@ export function Post({ postDetails }) {
                 <button
                     className={`btn btn-${saved ? 'primary' : 'secondary'} rounded-pill fw-bold`}
                     onClick={handleSave}>
-                    <i class="bi bi-download me-2"></i>
+                    <i className="bi bi-download me-2"></i>
                     Save
+                </button>
+                <Link
+                    className='btn btn-secondary rounded-pill fw-bold'
+                    to={`/edit/${postDetails.postId}`}>
+                    <i className="bi bi-pencil-square me-2"></i>
+                    Edit
+                </Link>
+                <button
+                    className='btn btn-secondary rounded-pill text-danger fw-bold'
+                    onClick={handleDelete}>
+                    <i className="bi bi-trash me-2"></i>
+                    Delete
                 </button>
             </div>
             {/* Comments Section */}

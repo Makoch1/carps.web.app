@@ -15,6 +15,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as SearchIndexImport } from './routes/search/index'
 import { Route as ProfileUserIdImport } from './routes/profile/$userId'
 import { Route as PostPostIdImport } from './routes/post/$postId'
+import { Route as EditPostIdImport } from './routes/edit/$postId'
 
 // Create/Update Routes
 
@@ -42,6 +43,12 @@ const PostPostIdRoute = PostPostIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const EditPostIdRoute = EditPostIdImport.update({
+  id: '/edit/$postId',
+  path: '/edit/$postId',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -51,6 +58,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/edit/$postId': {
+      id: '/edit/$postId'
+      path: '/edit/$postId'
+      fullPath: '/edit/$postId'
+      preLoaderRoute: typeof EditPostIdImport
       parentRoute: typeof rootRoute
     }
     '/post/$postId': {
@@ -81,6 +95,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/edit/$postId': typeof EditPostIdRoute
   '/post/$postId': typeof PostPostIdRoute
   '/profile/$userId': typeof ProfileUserIdRoute
   '/search': typeof SearchIndexRoute
@@ -88,6 +103,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/edit/$postId': typeof EditPostIdRoute
   '/post/$postId': typeof PostPostIdRoute
   '/profile/$userId': typeof ProfileUserIdRoute
   '/search': typeof SearchIndexRoute
@@ -96,6 +112,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/edit/$postId': typeof EditPostIdRoute
   '/post/$postId': typeof PostPostIdRoute
   '/profile/$userId': typeof ProfileUserIdRoute
   '/search/': typeof SearchIndexRoute
@@ -103,15 +120,27 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/post/$postId' | '/profile/$userId' | '/search'
+  fullPaths:
+    | '/'
+    | '/edit/$postId'
+    | '/post/$postId'
+    | '/profile/$userId'
+    | '/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/post/$postId' | '/profile/$userId' | '/search'
-  id: '__root__' | '/' | '/post/$postId' | '/profile/$userId' | '/search/'
+  to: '/' | '/edit/$postId' | '/post/$postId' | '/profile/$userId' | '/search'
+  id:
+    | '__root__'
+    | '/'
+    | '/edit/$postId'
+    | '/post/$postId'
+    | '/profile/$userId'
+    | '/search/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EditPostIdRoute: typeof EditPostIdRoute
   PostPostIdRoute: typeof PostPostIdRoute
   ProfileUserIdRoute: typeof ProfileUserIdRoute
   SearchIndexRoute: typeof SearchIndexRoute
@@ -119,6 +148,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EditPostIdRoute: EditPostIdRoute,
   PostPostIdRoute: PostPostIdRoute,
   ProfileUserIdRoute: ProfileUserIdRoute,
   SearchIndexRoute: SearchIndexRoute,
@@ -135,6 +165,7 @@ export const routeTree = rootRoute
       "filePath": "__root.jsx",
       "children": [
         "/",
+        "/edit/$postId",
         "/post/$postId",
         "/profile/$userId",
         "/search/"
@@ -142,6 +173,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.jsx"
+    },
+    "/edit/$postId": {
+      "filePath": "edit/$postId.jsx"
     },
     "/post/$postId": {
       "filePath": "post/$postId.jsx"
