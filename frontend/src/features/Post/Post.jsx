@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useUpvote } from '../../hooks/useUpvote.js'
 import { UserIcon } from '../../components/UserIcon.jsx'
 import { Comment } from './Comment.jsx'
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 
 export function Post({ postDetails }) {
     const [upvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
     const [saved, setSaved] = useState(false); // TODO: next time, instead of false, check backend if post is saved
+    const { history } = useRouter();
 
     function handleSave() {
         // once backend is done, add a call to backend
@@ -21,7 +22,9 @@ export function Post({ postDetails }) {
     return (
         <div className="w-50 mx-auto mt-3">
             <div className="d-flex gap-3 align-items-end">
-                <button className='btn btn-primary bg-transparent rounded-circle'>
+                <button
+                    className='btn btn-primary bg-transparent rounded-circle'
+                    onClick={() => history.go(-1)}>
                     <i className='bi bi-arrow-return-left'></i>
                 </button>
                 <div className='d-flex gap-1 align-items-center fs-5 fw-bold fst-italic'>
