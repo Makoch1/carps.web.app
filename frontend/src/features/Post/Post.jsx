@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useUpvote } from '../../hooks/useUpvote.js'
-import { UserIcon } from '../../components/userIcon.jsx'
+import { UserIcon } from '../../components/UserIcon.jsx'
 
 export function Post({ postDetails }) {
     const [upvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
@@ -62,7 +62,12 @@ export function Post({ postDetails }) {
                     Save
                 </button>
             </div>
-            {/*  TODO: comments section goes here! */}
+            {/* Comments Section */}
+            <div className='mt-3'>
+                {postDetails.comments.map((comment, index) => (
+                    <Comment key={index} commentDetails={comment} />
+                ))}
+            </div>
         </div>
     )
 }
