@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useUpvote } from '../../hooks/useUpvote.js'
 import { UserIcon } from '../../components/UserIcon.jsx'
+import { Comment } from './Comment.jsx'
 
 export function Post({ postDetails }) {
     const [upvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
