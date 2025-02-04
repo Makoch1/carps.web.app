@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useUpvote } from '../../hooks/useUpvote.js'
 import { Link } from "@tanstack/react-router";
 
 export function PostPreview({ postDetails }) {
-    const [userUpvote, setUserUpvote] = useState(0); // either -1, 0, or 1
+    const [userUpvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
 
     // gets only the first two tags
     const tags = postDetails.tags
@@ -10,25 +10,6 @@ export function PostPreview({ postDetails }) {
         .map((tag, index) =>
             <span className="badge rounded-pill text-bg-primary fs-6" key={index}>{tag}</span>
         )
-
-    const upvoteColor = () => {
-        switch (userUpvote) {
-            case -1: return 'lightblue';
-            case 0: return 'white';
-            case 1: return 'orangered';
-        }
-    }
-
-    // TODO: once back end is done, add a call to backend
-    function handleUpvote() {
-        // if already 1, just reset to 0
-        userUpvote === 1 ? setUserUpvote(0) : setUserUpvote(1);
-    }
-
-    function handleDownvote() {
-        // if already -1, reset downvote
-        userUpvote === -1 ? setUserUpvote(0) : setUserUpvote(-1)
-    }
 
     return (
         <div className="d-flex my-5" >

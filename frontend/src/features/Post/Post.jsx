@@ -1,26 +1,10 @@
 import { useState } from 'react';
+import { useUpvote } from '../../hooks/useUpvote.js'
 import { UserIcon } from '../../components/userIcon.jsx'
 
 export function Post({ postDetails }) {
-    const [upvote, setUpvote] = useState(0);
+    const [upvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
     const [saved, setSaved] = useState(false); // TODO: next time, instead of false, check backend if post is saved
-
-    // TODO: since PostPreview uses the same logic, maybe make a custom hook for upvote system?
-    const upvoteColor = () => {
-        switch (upvote) {
-            case -1: return 'lightblue';
-            case 0: return 'white';
-            case 1: return 'orangered';
-        }
-    }
-
-    function handleUpvote() {
-        upvote === 1 ? setUpvote(0) : setUpvote(1);
-    }
-
-    function handleDownvote() {
-        upvote === -1 ? setUpvote(0) : setUpvote(-1);
-    }
 
     function handleSave() {
         // once backend is done, add a call to backend
