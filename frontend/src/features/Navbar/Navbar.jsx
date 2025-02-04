@@ -53,6 +53,12 @@ export function Navbar({ userIcon, userId }) {
                 </form>
                 <div className="d-flex align-items-center gap-2">
                     <Link
+                        className="btn btn-secondary btn-sm fw-bold"
+                        to='/create-post'>
+                        <i class="me-2 bi bi-file-earmark-plus"></i>
+                        Create Post
+                    </Link>
+                    <Link
                         className="nav-link d-flex gap-2 text-white fs-4 fw-bold"
                         disabled={!userId}
                         to={`/profile/${userId}`} >
