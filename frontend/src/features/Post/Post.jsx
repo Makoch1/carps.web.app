@@ -23,7 +23,15 @@ export function Post({ postDetails }) {
                     <p className='m-0'>{postDetails.user.username}</p>
                 </div>
             </div>
-            <h1 className='my-3 fs-2 fw-bold'>{postDetails.title}</h1>
+            <h1 className='my-3 fs-2 fw-bold'>
+                {postDetails.start}
+                {
+                    postDetails.oneWay ?
+                        <i className='mx-2 bi bi-arrow-right'></i> :
+                        <i className='mx-2 bi bi-arrow-left-right'></i>
+                }
+                {postDetails.destination}
+            </h1>
             <div className='d-flex flex-wrap gap-2'>
                 {
                     postDetails.tags.map((tag, index) =>
