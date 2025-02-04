@@ -4,23 +4,22 @@ import { getPosts } from '../../utils/getPosts.js'
 
 export const Route = createFileRoute('/search/')({
     // defines what to do with the search params before getting passed to loader
-    loaderDeps: ({ search: { query, page, filters } }) => {
-        const q = query ? query : '';
-        const p = page ? page : 1;
-        const f = filters ? filters : [];
+    validateSearch: (search) => {
+        const start = search.start ? search.start : '';
+        const end = search.end ? search.end : '';
+        const page = search.page ? search.page : 1;
+        const filters = search.filters ? search.filters : [];
 
-        return {
-            q,
-            p,
-            f,
-        }
-    },
-    loader: async ({ deps: { query, page, filters } }) => {
-        // replace with actual backend call
-        return getPosts(query, page, filters);
+        return ({
+            start,
+            end,
+            page,
+            filters,
+        })
     },
     component: () => {
-        const posts = Route.useLoaderData();
+        const { start, end, page, filters } = Route.useSearch()
+        const posts = getPosts(start, end, page, filters);
 
         return <PostFeed posts={posts} />
     },

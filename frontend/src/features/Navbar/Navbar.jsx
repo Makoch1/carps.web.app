@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 
 export function Navbar({ userIcon, userId }) {
-    const [searchInput, setSearchInput] = useState('');
+    const [startInput, setStartInput] = useState('');
+    const [endInput, setEndInput] = useState('');
     const navigate = useNavigate();
 
     /* if no icon is provided, defaults to generic icon */
@@ -12,8 +13,8 @@ export function Navbar({ userIcon, userId }) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        // check if search bar is empty
-        if (searchInput === '') {
+        // check if one of them is empty
+        if (startInput === '' && endInput === '') {
             return; // for now. could be an error message later on
         }
 
@@ -21,7 +22,8 @@ export function Navbar({ userIcon, userId }) {
         navigate({
             to: '/search',
             search: {
-                query: searchInput,
+                start: startInput,
+                end: endInput,
                 page: 1,
                 filters: [],
             },
@@ -33,18 +35,21 @@ export function Navbar({ userIcon, userId }) {
             <div className="container-fluid">
                 <Link className="navbar-brand text-white fs-2 fw-bold" to="/">CARPS</Link>
                 <form className="d-flex w-25 mx-auto" role="search" onSubmit={handleSubmit}>
-                    <div className="input-group rounded-pill bg-dark">
-                        <button className="btn btn-primary rounded-pill border-0 px-3" type="submit">
-                            <i className="bi bi-search"></i>
-                        </button>
+                    <div className="input-group me-1 gap-1 rounded-pill bg-secondary">
                         <input
-                            className="form-control rounded-end-pill bg-dark border-0 py-2 text-white shadow-none"
+                            className="form-control rounded-start-pill bg-dark border-0 py-2 px-4 text-white shadow-none"
                             type="search"
-                            placeholder="Search..."
-                            value={searchInput}
-                            onChange={e => setSearchInput(e.target.value)} />
-                        <input type="submit" hidden /> {/* Allows user to submit using enter key */}
+                            placeholder="Start..."
+                            value={startInput}
+                            onChange={e => setStartInput(e.target.value)} />
+                        <input
+                            className="form-control rounded-end-pill bg-dark border-0 py-2 px-4 text-white shadow-none"
+                            type="search"
+                            placeholder="Destination..."
+                            value={endInput}
+                            onChange={e => setEndInput(e.target.value)} />
                     </div>
+                    <input type="submit" hidden /> {/* Allows user to submit using enter key */}
                 </form>
                 <div className="d-flex align-items-center gap-2">
                     <Link

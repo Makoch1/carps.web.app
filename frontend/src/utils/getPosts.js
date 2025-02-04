@@ -97,6 +97,11 @@ const mockPosts = [
     },
 ]
 
-export function getPosts(query = "", page = 1, filters = []) {
-    return mockPosts;
+export function getPosts(start = "", end = "", page = 1, filters = []) {
+    console.log(start)
+    const posts = mockPosts
+        .filter(post => post.start.includes(start)) // filter start
+        .filter(post => post.destination.includes(end)) // filter end
+
+    return posts;
 }
