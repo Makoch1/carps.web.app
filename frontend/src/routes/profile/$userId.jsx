@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { getProfileData } from '../../utils/getProfileData'
 import { PostFeed } from '../../features/PostFeed/PostFeed.jsx'
 import { useState } from 'react'
+import { CurProfile } from '../../features/Edit/CurProfile.jsx'
 
 export const Route = createFileRoute('/profile/$userId')({
     loader: ({ params: { userId } }) => {
@@ -21,7 +22,7 @@ function RouteComponent() {
     const Tabs = Object.freeze({
         posts: <PostFeed posts={profileData.posts} />,
         saved: <PostFeed posts={profileData.savedPosts} />,
-        edit: <></>, // TODO: Insert edit tab component
+        edit: <CurProfile profilePicture={profileData.profilePicture} description={profileData.description}/>
     });
 
     const [currentTab, setCurrentTab] = useState('posts') // posts are displayed by default
