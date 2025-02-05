@@ -19,10 +19,10 @@ export function PostPreview({ postDetails }) {
                         {postDetails.upvotes + userUpvote}
                     </p>
                     <div>
-                        <button className="btn bg-transparent btn-outline-primary border-0" onClick={handleUpvote}>
+                        <button className="p-1 btn bg-transparent btn-outline-primary border-0" onClick={handleUpvote}>
                             <i class="bi bi-chevron-up"></i>
                         </button>
-                        <button className="btn bg-transparent btn-outline-primary border-0" onClick={handleDownvote}>
+                        <button className="p-1 btn bg-transparent btn-outline-primary border-0" onClick={handleDownvote}>
                             <i class="bi bi-chevron-down"></i>
                         </button>
                     </div>
@@ -38,7 +38,7 @@ export function PostPreview({ postDetails }) {
                                 <i className="bi bi-person-circle fs-1 me-2"></i>
                         }
                         <div className="d-flex flex-column">
-                            <span className="fs-4">{postDetails.user.username}</span>
+                            <span className="fs-5">{postDetails.user.username}</span>
                             <span className="fw-light fst-italic">{postDetails.timestamp}</span>
                         </div>
                     </div>
