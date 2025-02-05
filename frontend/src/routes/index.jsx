@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PostFeed } from '../features/PostFeed/PostFeed.jsx'
+import { FilterSidebar } from '../features/PostFeed/FilterSidebar.jsx'
 import { getPosts } from '../utils/getPosts.js'
 
 export const Route = createFileRoute('/')({
@@ -16,7 +17,7 @@ export const Route = createFileRoute('/')({
         return (
             <div className="d-flex">
                 <div className="w-25">
-
+                    <FilterSidebar />
                 </div>
                 <div className="w-75">
                     <PostFeed posts={loadedPosts} />
