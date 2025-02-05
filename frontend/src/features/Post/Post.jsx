@@ -6,6 +6,7 @@ import { Link, useRouter } from '@tanstack/react-router';
 
 export function Post({ postDetails }) {
     const [upvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
+    const [comment, setComment] = useState('');
     const [saved, setSaved] = useState(false); // TODO: next time, instead of false, check backend if post is saved
     const { history } = useRouter();
 
@@ -81,7 +82,7 @@ export function Post({ postDetails }) {
                 </button>
                 <Link
                     className='btn btn-secondary rounded-pill fw-bold'
-                    to={`/edit/${postDetails.postId}`}>
+                    onClick={() => window.alert('Edit comment')}>
                     <i className="bi bi-pencil-square me-2"></i>
                     Edit
                 </Link>
@@ -93,6 +94,27 @@ export function Post({ postDetails }) {
                 </button>
             </div>
             {/* Comments Section */}
+            <form className='my-3 border border-primary rounded'>
+                <textarea
+                    className='form-control bg-transparent border-0 h-50 mb-0 shadow-none'
+                    value={comment}
+                    placeholder='Enter comment here...'
+                    onChange={e => setComment(e.target.value)}>
+                </textarea>
+                <div className='d-flex flex-row-reverse'>
+                    <button
+                        className='btn btn-primary px-4 py-1 m-2 rounded-pill'>
+                        Post
+                    </button>
+                    <button
+                        className='btn btn-secondary px-4 py-1 my-2 rounded-pill'
+                        type='button'
+                        onClick={() => setComment('')}>
+                        Clear
+                    </button>
+                </div>
+            </form>
+
             <div className='mt-3'>
                 {postDetails.comments.map((comment, index) => (
                     <Comment key={index} commentDetails={comment} />
