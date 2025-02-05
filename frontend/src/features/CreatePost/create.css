@@ -1,6 +1,5 @@
-body {
+.main {
     color: white;
-    background-color: #1c1d19;
     font-family: "Lexend", "Montserrat", sans-serif;
     text-align: center;
 }
@@ -11,7 +10,8 @@ h1 {
 
 form p {
     font-size: 1.15em;
-    margin-top: 35px;
+    margin-bottom: 8px;
+    margin-top: 25px;
 }
 
 form input.text {
@@ -43,11 +43,15 @@ div.toggle label {
     width: 100px;
 }
 
+div.toggle label:hover {
+    cursor: pointer;
+}
+
 div.toggle input {
     display: none;
 }
 
-input:checked + label {
+input:checked+label {
     background-color: #deb887;
 }
 

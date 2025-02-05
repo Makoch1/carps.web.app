@@ -1,18 +1,7 @@
 import { useEffect, useState } from "react";
 import { Collapse } from "bootstrap";
 import { useNavigate } from "@tanstack/react-router";
-
-// FOR NOW, DITO MUNA, WILL MAKE A CONSTANTS.JS FILE LATER
-const transportTypes = [
-    'Angkas',
-    'Bus',
-    'Grab',
-    'Jeepney',
-    'Taxi',
-    'Train',
-    'Tricycle',
-    'Van',
-]
+import { transportTypes } from '../../utils/constants.js'
 
 /**
  * Sidebar that allows users to SORT, and FILTER the posts.
