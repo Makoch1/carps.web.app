@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <title>Create Post</title>
+
+        <link rel="stylesheet" href="create.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+        <h1>Create Post</h1>
+
+        <form method="post">
+
+            <p>Enter the start and destination.</p>
+
+            <input class="text" type="text" placeholder="Start" maxlength="100" required>
+            <input class="text" type="text" placeholder="Destination" maxlength="100" required>
+
+            <p>Select the type of the trip.</p>
+
+            <div class="toggle">
+                <input name="type" id="one-way" type="radio" checked>
+                <labeL for="one-way">One-Way</labeL>
+            </div>
+
+            <div class="toggle">
+                <input name="type" id="round" type="radio">
+                <labeL for="round">Round</labeL>
+            </div>
+
+            <p>Select the preferred mode of public transport. <br> 
+               Multiple selections are allowed.</p>
+
+            <div class="toggle">
+                <input id="tricycle" type="checkbox">
+                <label for="tricycle">Tricycle</label>
+            </div>
+
+            <div class="toggle">
+                <input id="jeep" type="checkbox">
+                <label for="jeep">Jeep</label>
+            </div>
+
+            <div class="toggle">
+                <input id="taxi" type="checkbox">
+                <label for="taxi">Taxi</label>
+            </div>
+
+            <br>
+
+            <div class="toggle">
+                <input id="van" type="checkbox">
+                <label for="van">Van</label>
+            </div>
+
+            <div class="toggle">
+                <input id="bus" type="checkbox">
+                <label for="bus">Bus</label>
+            </div>
+
+            <div class="toggle">
+                <input id="train" type="checkbox">
+                <label for="train">Train</label>
+            </div>
+
+            <br>
+
+            <div class="toggle">
+                <input id="angkas" type="checkbox">
+                <label for="angkas">Angkas</label>
+            </div>
+
+            <div class="toggle">
+                <input id="grab" type="checkbox">
+                <label for="grab">Grab</label>
+            </div>
+
+            <p>Enter any additional details.</p>
+
+            <textarea id="description" placeholder="Description" maxlength="2500"></textarea> <br>
+
+            <input class="submit" type="submit" value="Post">
+
+        </form>
+
+        <script src="create.js"></script>
+
+    </body>
+
+</html>

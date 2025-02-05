@@ -1,0 +1,84 @@
+body {
+    color: white;
+    background-color: #1c1d19;
+    font-family: "Lexend", "Montserrat", sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+form p {
+    font-size: 1.15em;
+    margin-top: 35px;
+}
+
+form input.text {
+    width: 30vh;
+    height: 2vh;
+    border: 0.5vh solid #deb887;
+    border-radius: 1vh;
+    padding: 1vh;
+}
+
+div.toggle {
+    border-radius: 15px;
+    display: inline-block;
+    min-width: 75px;
+    margin: 5px;
+}
+
+div.toggle label {
+    color: black;
+    font-weight: bold;
+    display: block;
+    user-select: none;
+    padding: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: lightgray;
+    border-radius: 15px;
+    text-align: center;
+    width: 100px;
+}
+
+div.toggle input {
+    display: none;
+}
+
+input:checked + label {
+    background-color: #deb887;
+}
+
+form textarea {
+    width: 63vh;
+    height: 20vh;
+    border: 0.5vh solid #deb887;
+    border-radius: 2vh;
+    padding: 1vh;
+    resize: none;
+    margin-bottom: 35px;
+}
+
+form input.submit {
+    width: 20vh;
+    height: 4vh;
+    border: none;
+    border-radius: 1vh;
+    background-color: #deb887;
+    font-size: 1.5vh;
+    font-weight: bold;
+    font-family: "Lexend", "Montserrat", sans-serif;
+    margin: 0.75vh;
+    padding: 1vh;
+    cursor: pointer;
+}
+
+form input::placeholder,
+form textarea::placeholder,
+form input[type="text"],
+form textarea {
+    font-size: 1.5vh;
+    font-family: "Lexend", "Montserrat", sans-serif;
+}
