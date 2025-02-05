@@ -34,7 +34,7 @@ export function Navbar({ userIcon, userId }) {
         <nav id="navbar" className="navbar sticky-top navbar-expand-lg bg-primary">
             <div className="container-fluid">
                 <Link className="navbar-brand text-white fs-2 fw-bold" to="/">CARPS</Link>
-                <form className="d-flex w-25 mx-auto" role="search" onSubmit={handleSubmit}>
+                <form className="d-flex w-25 position-absolute top-50 start-50 translate-middle" role="search" onSubmit={handleSubmit}>
                     <div className="input-group me-1 gap-1 rounded-pill bg-secondary">
                         <input
                             className="form-control rounded-start-pill bg-dark border-0 py-2 px-4 text-white shadow-none"
@@ -54,7 +54,7 @@ export function Navbar({ userIcon, userId }) {
                 <div className="d-flex align-items-center gap-2">
                     <Link
                         className="btn btn-secondary btn-sm fw-bold"
-                        to='/create-post'>
+                        to='/post/create'>
                         <i class="me-2 bi bi-file-earmark-plus"></i>
                         Create Post
                     </Link>
@@ -68,7 +68,7 @@ export function Navbar({ userIcon, userId }) {
                     {
                         // only add this, when user is logged out
                         !userId &&
-                        <Link className="btn btn-secondary btn-sm fw-bold" to="/signin">
+                        <Link className="btn btn-secondary btn-sm fw-bold" to="/login">
                             Sign in
                         </Link>
                     }

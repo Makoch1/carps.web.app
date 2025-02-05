@@ -1,4 +1,8 @@
-body {
+.bg-body {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100dvh;
     background-image: url(image/gallery.gif);
     background-size: cover;
     background-repeat: no-repeat;
@@ -7,9 +11,10 @@ body {
     overflow: hidden;
 }
 
-dialog {
+.dialog {
     width: 50vh;
     height: 45vh;
+    margin-bottom: 10%;
     border: none;
     border-radius: 3vh;
     background-color: #1d1e1a;
@@ -18,45 +23,45 @@ dialog {
     padding: 0vh;
 }
 
-dialog::backdrop {
+.dialog::backdrop {
     opacity: 30%;
     background-color: black;
 }
 
-dialog h1,
-dialog h2 {
+.dialog h1,
+.dialog h2 {
     margin: 0vh;
     margin-top: 2vh;
     margin-bottom: 2vh;
     padding: 0vh;
 }
 
-dialog h1 {
+.dialog h1 {
     color: #ffffff;
     font-size: 5vh;
 }
 
-dialog h1 span {
+.dialog h1 span {
     color: #deb887;
 }
 
-dialog h2 {
+.dialog h2 {
     color: #ffffff;
     font-size: 3vh;
 }
 
-dialog p {
+.dialog p {
     font-size: 1.5vh;
     margin: 0vh;
     padding: 0vh;
 }
 
-dialog form {
+.dialog form {
     margin: 0vh;
     padding: 0vh;
 }
 
-dialog form + p {
+.dialog form+p {
     color: #deb887;
     text-decoration: underline;
     cursor: pointer;
@@ -65,31 +70,31 @@ dialog form + p {
     padding: 0vh;
 }
 
-dialog form p {
+.dialog form p {
     color: #dc143c;
     font-weight: bold;
     /* visibility: hidden; */
 }
 
-dialog form input.username,
-dialog form input.password
-{
+.dialog form input.username,
+.dialog form input.password {
+    color: black;
     width: 30vh;
-    height: 2vh;
+    height: 3vh;
     border: 0.5vh solid #deb887;
     border-radius: 1vh;
     margin: 0.75vh;
     padding: 1vh;
 }
 
-dialog form input.remember {
+.dialog form input.remember {
     width: 1.1vh;
     height: 1.1vh;
     margin: 0vh;
     padding: 0vh;
 }
 
-dialog form input.remember + label {
+.dialog form input.remember+label {
     width: 2vh;
     height: 2vh;
     color: white;
@@ -98,9 +103,10 @@ dialog form input.remember + label {
     margin: 0vh;
     margin-left: 0.25vh;
     padding: 0vh;
+    white-space: nowrap;
 }
 
-dialog form input.submit {
+.dialog form input.submit {
     width: 20vh;
     height: 4vh;
     border: none;
@@ -114,9 +120,9 @@ dialog form input.submit {
     cursor: pointer;
 }
 
-dialog form input::placeholder,
-dialog form input[type="text"],
-dialog form input[type="password"] {
+.dialog form input::placeholder,
+.dialog form input[type="text"],
+.dialog form input[type="password"] {
     font-size: 1.5vh;
     font-family: "Lexend", "Montserrat", sans-serif;
 }
