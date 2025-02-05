@@ -61,7 +61,16 @@
     padding: 0vh;
 }
 
-.dialog form+p {
+.dialog form+a {
+    color: #deb887;
+    text-decoration: underline;
+    cursor: pointer;
+    user-select: none;
+    margin: 1vh;
+    padding: 0vh;
+}
+
+.dialog form+a:visited {
     color: #deb887;
     text-decoration: underline;
     cursor: pointer;
@@ -84,7 +93,7 @@
     border: 0.5vh solid #deb887;
     border-radius: 1vh;
     margin: 0.75vh;
-    padding: 1vh;
+    padding: 1.5vh;
 }
 
 .dialog form input.remember {
@@ -95,15 +104,12 @@
 }
 
 .dialog form input.remember+label {
-    width: 2vh;
-    height: 2vh;
     color: white;
     font-size: 1.5vh;
     user-select: none;
     margin: 0vh;
     margin-left: 0.25vh;
     padding: 0vh;
-    white-space: nowrap;
 }
 
 .dialog form input.submit {
@@ -115,7 +121,8 @@
     font-size: 1.5vh;
     font-weight: bold;
     font-family: "Lexend", "Montserrat", sans-serif;
-    margin: 0.75vh;
+    margin: 1vh;
+    margin-bottom: 2vh;
     padding: 1vh;
     cursor: pointer;
 }

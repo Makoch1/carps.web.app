@@ -11,8 +11,8 @@ export function CreatePost() {
 
                 <p>Enter the start and destination.</p>
 
-                <input className="text" type="text" placeholder="Start" maxlength="100" required />
-                <input className="text" type="text" placeholder="Destination" maxlength="100" required />
+                <input className="text" type="text" placeholder="Start" maxLength="100" required />
+                <input className="text" type="text" placeholder="Destination" maxLength="100" required />
 
                 <p>Select the type of the trip.</p>
 
@@ -43,7 +43,7 @@ export function CreatePost() {
 
                 <p>Enter any additional details.</p>
 
-                <textarea id="description" placeholder="Description" maxlength="2500"></textarea> <br />
+                <textarea id="description" placeholder="Description" maxLength="2500"></textarea> <br />
 
                 <input className="submit" type="submit" value="Post" />
 
