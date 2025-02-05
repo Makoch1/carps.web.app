@@ -15,7 +15,6 @@ export function CurProfile({profilePicture, description}){
                                 </div>
                                 <input type="file" id="customFile" name="file" hidden=""/>
                                 <label className="btn btn-success-soft btn-block" htmlFor="customFile">Upload</label>
-                                <button type="button" className="btn btn-danger-soft">Remove</button>
                                 <p className="text-muted mt-3 mb-0"><span className="me-1">Note:</span>Please use appropriate pictures</p>
                             </div>
                         </div>
@@ -24,7 +23,7 @@ export function CurProfile({profilePicture, description}){
                         <label htmlFor="inputDescription" className="form-label">
                             <h4 className="mb-4 mt-0 btn btn-primary btn-lg">Description</h4>
                         </label>
-                        <input type="text" className="form-control bg-primary" placeholder={description} id="inputDescription"/>
+                        <textarea type="text" className="form-control bg-primary" placeholder={description} id="inputDescription" rows="5"></textarea>
                 </div>
                 <div className="gap-3 d-md-flex justify-content-center text-center">
                     <label className="btn btn-primary btn-lg">
@@ -40,18 +39,3 @@ export function CurProfile({profilePicture, description}){
     </div>
     )
 }
-
-/*
-export function PostFeed({ posts }) {
-    return (
-        <>
-            <div className='w-100 h-auto ms-auto'>
-                {
-                    posts.map((post, index) => <PostPreview postDetails={post} key={index} />)
-                }
-            </div>
-        </>
-    )
-}
-
-*/
