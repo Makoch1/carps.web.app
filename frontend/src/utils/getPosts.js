@@ -97,11 +97,31 @@ const mockPosts = [
     },
 ]
 
-export function getPosts(start = "", end = "", page = 1, filters = []) {
-    console.log(start)
+export function getPosts(start = "", end = "", page = 1, sort = 'popular', filters = []) {
     const posts = mockPosts
         .filter(post => post.start.toLowerCase().includes(start.toLowerCase())) // filter start
         .filter(post => post.destination.toLowerCase().includes(end.toLowerCase())) // filter end
+        .filter(post => {
+            if (filters.length === 0) {
+                return true;
+            }
+
+            for (let i = 0; i < filters.length; i++) {
+                const flt = filters[i];
+                if (post.tags.includes(flt)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }) // filter transpo types
+
+    // sort
+    if (sort === 'popular') {
+        posts.sort((a, b) => b.upvotes - a.upvotes); // see sort definition
+    } else if (sort === 'new') {
+        posts.sort((a, b) => a.timestamp > b.timestamp ? -1 : 1)
+    }
 
     return posts;
 }

@@ -8,18 +8,20 @@ export const Route = createFileRoute('/search/')({
         const start = search.start ? search.start : '';
         const end = search.end ? search.end : '';
         const page = search.page ? search.page : 1;
+        const sort = search.sort ? search.sort : '';
         const filters = search.filters ? search.filters : [];
 
         return ({
             start,
             end,
             page,
+            sort,
             filters,
         })
     },
     component: () => {
-        const { start, end, page, filters } = Route.useSearch()
-        const posts = getPosts(start, end, page, filters);
+        const { start, end, page, sort, filters } = Route.useSearch()
+        const posts = getPosts(start, end, page, sort, filters);
 
         return <PostFeed posts={posts} />
     },
