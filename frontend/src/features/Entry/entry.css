@@ -1,0 +1,122 @@
+body {
+    background-image: url(image/gallery.gif);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+dialog {
+    width: 50vh;
+    height: 45vh;
+    border: none;
+    border-radius: 3vh;
+    background-color: #1d1e1a;
+    text-align: center;
+    font-family: "Lexend", "Montserrat", sans-serif;
+    padding: 0vh;
+}
+
+dialog::backdrop {
+    opacity: 30%;
+    background-color: black;
+}
+
+dialog h1,
+dialog h2 {
+    margin: 0vh;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    padding: 0vh;
+}
+
+dialog h1 {
+    color: #ffffff;
+    font-size: 5vh;
+}
+
+dialog h1 span {
+    color: #deb887;
+}
+
+dialog h2 {
+    color: #ffffff;
+    font-size: 3vh;
+}
+
+dialog p {
+    font-size: 1.5vh;
+    margin: 0vh;
+    padding: 0vh;
+}
+
+dialog form {
+    margin: 0vh;
+    padding: 0vh;
+}
+
+dialog form + p {
+    color: #deb887;
+    text-decoration: underline;
+    cursor: pointer;
+    user-select: none;
+    margin: 1vh;
+    padding: 0vh;
+}
+
+dialog form p {
+    color: #dc143c;
+    font-weight: bold;
+    /* visibility: hidden; */
+}
+
+dialog form input.username,
+dialog form input.password
+{
+    width: 30vh;
+    height: 2vh;
+    border: 0.5vh solid #deb887;
+    border-radius: 1vh;
+    margin: 0.75vh;
+    padding: 1vh;
+}
+
+dialog form input.remember {
+    width: 1.1vh;
+    height: 1.1vh;
+    margin: 0vh;
+    padding: 0vh;
+}
+
+dialog form input.remember + label {
+    width: 2vh;
+    height: 2vh;
+    color: white;
+    font-size: 1.5vh;
+    user-select: none;
+    margin: 0vh;
+    margin-left: 0.25vh;
+    padding: 0vh;
+}
+
+dialog form input.submit {
+    width: 20vh;
+    height: 4vh;
+    border: none;
+    border-radius: 1vh;
+    background-color: #deb887;
+    font-size: 1.5vh;
+    font-weight: bold;
+    font-family: "Lexend", "Montserrat", sans-serif;
+    margin: 0.75vh;
+    padding: 1vh;
+    cursor: pointer;
+}
+
+dialog form input::placeholder,
+dialog form input[type="text"],
+dialog form input[type="password"] {
+    font-size: 1.5vh;
+    font-family: "Lexend", "Montserrat", sans-serif;
+}
