@@ -12,7 +12,7 @@ const mockComments = [
         timestamp: '2024-03-16',
     },
     {
-        commet: 'I am not familiar with that area. I am sure you can just ask around there. They will help naman I ata.',
+        comment: 'I am not familiar with that area. I am sure you can just ask around there. They will help naman I ata.',
         upvotes: 19,
         user: {
             username: '@july617',
