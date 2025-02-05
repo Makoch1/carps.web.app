@@ -4,96 +4,70 @@ const mockPosts = [
         start: 'Cabuyao',
         destination: 'SM Sta. Rosa',
         upvotes: 56,
-        tags: ['P2P', 'Jeepney'],
+        tags: ['Bus', 'Taxi'],
         timestamp: '2024-03-16',
         user: {
-            username: '@Eme',
+            username: '@albertjames17',
             userIcon: ''
         },
         oneWay: true,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+        description: 'Sabi daw nila na lahat ay connected sa Cabuyao. I am wondering if the same is true when doing the opposite.'
     },
     {
         postId: 2,
-        start: 'Nuvali',
-        destination: 'Makati',
+        start: 'Sta. Rosa, Laguna',
+        destination: 'Mandaluyong',
         upvotes: 56,
-        tags: ['P2P', 'Jeepney'],
+        tags: ['Bus', 'Train'],
         timestamp: '2024-03-16',
         user: {
-            username: '@Eme',
+            username: '@rachel456',
             userIcon: ''
         },
         oneWay: false,
+        description: 'Hello! I want to ask since I want to visit my relatives.'
     },
     {
         postId: 3,
-        start: 'DLSU Laguna',
-        destination: 'DLSU Manila',
+        start: 'DLSU',
+        destination: 'PICC',
         upvotes: 56,
-        tags: ['P2P', 'Jeepney'],
+        tags: ['Jeep', 'Taxi'],
         timestamp: '2024-03-16',
         user: {
-            username: '@Eme',
+            username: '@idk',
             userIcon: ''
         },
         oneWay: false,
+        description: 'Just be straight with me kung madali o hindi, especially kung travelling as a graduating student.'
     },
     {
         postId: 4,
-        start: 'Nuvali',
-        destination: 'DLSU Laguna',
+        start: 'Balibago',
+        destination: 'SM Sta. Rosa',
         upvotes: 56,
-        tags: ['Tricycle'],
+        tags: ['Jeep', 'Train'],
         timestamp: '2024-03-16',
         user: {
-            username: '@Eme',
+            username: '@shyforeigner',
             userIcon: ''
         },
         oneWay: true,
-        description: 'Lorem ipsum type shi'
+        description: 'English only please!'
     },
     {
         postId: 5,
-        start: 'Nuvali',
-        destination: 'BGC',
+        start: 'Cabuyao',
+        destination: 'SM Fairview',
         upvotes: 56,
-        tags: ['P2P', 'Jeepney'],
+        tags: ['Bus', 'Train'],
         timestamp: '2024-03-16',
         user: {
-            username: '@Eme',
+            username: '@jacob117',
             userIcon: ''
         },
         oneWay: true,
-        description: 'Lorem ipsum type shi'
-    },
-    {
-        postId: 6,
-        start: 'SM Sta. Rosa',
-        destination: 'UPLB',
-        upvotes: 56,
-        tags: ['P2P', 'Jeepney'],
-        timestamp: '2024-03-16',
-        user: {
-            username: '@Eme',
-            userIcon: ''
-        },
-        oneWay: false,
-        description: 'Lorem ipsum type shi'
-    },
-    {
-        postId: 7,
-        start: 'DLSU Manila',
-        destination: 'Makati Circuit',
-        upvotes: 900,
-        tags: ['Jeepney', 'Jeepney'],
-        timestamp: '2024-03-16',
-        user: {
-            username: '@Eme',
-            userIcon: ''
-        },
-        oneWay: true,
-        description: 'Lorem ipsum type shi'
+        description: 'If possible, please include expected costs.'
     },
 ]
 
