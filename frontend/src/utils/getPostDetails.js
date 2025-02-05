@@ -3,37 +3,46 @@ import { getPosts } from './getPosts.js'
 // NOTE: as of now, all posts will be supplied the same set of comments
 const mockComments = [
     {
-        comment: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et',
-        upvotes: 12,
+        comment: 'Up! Gusto ko rin malaman!',
+        upvotes: 25,
         user: {
-            username: '@panda123',
+            username: '@rebecca118',
             userIcon: '',
         },
         timestamp: '2024-03-16',
     },
     {
-        comment: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et',
+        commet: 'I am not familiar with that area. I am sure you can just ask around there. They will help naman I ata.',
         upvotes: 19,
         user: {
-            username: '@p1234',
+            username: '@july617',
             userIcon: '',
         },
         timestamp: '2024-03-16',
     },
     {
-        comment: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.',
-        upvotes: 2,
+        comment: 'Kuha ka ng Grab or Angkas. Mas madali pa, magastos nga lang.',
+        upvotes: 0,
         user: {
-            username: '@rando3',
+            username: '@pedro12',
             userIcon: '',
         },
         timestamp: '2024-03-16',
     },
     {
-        comment: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et',
+        comment: 'That is bit vague. Where specifically is your starting and expected ending location?',
         upvotes: 1,
         user: {
-            username: '@testuser3',
+            username: '@mary19',
+            userIcon: '',
+        },
+        timestamp: '2024-03-16',
+    },
+    {
+        comment: 'LMAO. Hindi marunong!',
+        upvotes: 0,
+        user: {
+            username: '@troll101',
             userIcon: '',
         },
         timestamp: '2024-03-16',
