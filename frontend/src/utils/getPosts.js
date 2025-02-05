@@ -97,6 +97,11 @@ const mockPosts = [
     },
 ]
 
-export function getPosts(query = "", page = 1, filters = []) {
-    return mockPosts;
+export function getPosts(start = "", end = "", page = 1, filters = []) {
+    console.log(start)
+    const posts = mockPosts
+        .filter(post => post.start.toLowerCase().includes(start.toLowerCase())) // filter start
+        .filter(post => post.destination.toLowerCase().includes(end.toLowerCase())) // filter end
+
+    return posts;
 }
