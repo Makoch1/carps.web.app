@@ -11,6 +11,8 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as RegisterImport } from './routes/register'
+import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/index'
 import { Route as SearchIndexImport } from './routes/search/index'
 import { Route as ProfileUserIdImport } from './routes/profile/$userId'
@@ -18,6 +20,18 @@ import { Route as PostPostIdImport } from './routes/post/$postId'
 import { Route as EditPostIdImport } from './routes/edit/$postId'
 
 // Create/Update Routes
+
+const RegisterRoute = RegisterImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -60,6 +74,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterImport
+      parentRoute: typeof rootRoute
+    }
     '/edit/$postId': {
       id: '/edit/$postId'
       path: '/edit/$postId'
@@ -95,6 +123,8 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/edit/$postId': typeof EditPostIdRoute
   '/post/$postId': typeof PostPostIdRoute
   '/profile/$userId': typeof ProfileUserIdRoute
@@ -103,6 +133,8 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/edit/$postId': typeof EditPostIdRoute
   '/post/$postId': typeof PostPostIdRoute
   '/profile/$userId': typeof ProfileUserIdRoute
@@ -112,6 +144,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/edit/$postId': typeof EditPostIdRoute
   '/post/$postId': typeof PostPostIdRoute
   '/profile/$userId': typeof ProfileUserIdRoute
@@ -122,15 +156,26 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/login'
+    | '/register'
     | '/edit/$postId'
     | '/post/$postId'
     | '/profile/$userId'
     | '/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/edit/$postId' | '/post/$postId' | '/profile/$userId' | '/search'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/edit/$postId'
+    | '/post/$postId'
+    | '/profile/$userId'
+    | '/search'
   id:
     | '__root__'
     | '/'
+    | '/login'
+    | '/register'
     | '/edit/$postId'
     | '/post/$postId'
     | '/profile/$userId'
@@ -140,6 +185,8 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
   EditPostIdRoute: typeof EditPostIdRoute
   PostPostIdRoute: typeof PostPostIdRoute
   ProfileUserIdRoute: typeof ProfileUserIdRoute
@@ -148,6 +195,8 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
   EditPostIdRoute: EditPostIdRoute,
   PostPostIdRoute: PostPostIdRoute,
   ProfileUserIdRoute: ProfileUserIdRoute,
@@ -165,6 +214,8 @@ export const routeTree = rootRoute
       "filePath": "__root.jsx",
       "children": [
         "/",
+        "/login",
+        "/register",
         "/edit/$postId",
         "/post/$postId",
         "/profile/$userId",
@@ -173,6 +224,12 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.jsx"
+    },
+    "/login": {
+      "filePath": "login.jsx"
+    },
+    "/register": {
+      "filePath": "register.jsx"
     },
     "/edit/$postId": {
       "filePath": "edit/$postId.jsx"

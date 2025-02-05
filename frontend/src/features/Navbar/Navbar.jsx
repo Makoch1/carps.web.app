@@ -68,7 +68,7 @@ export function Navbar({ userIcon, userId }) {
                     {
                         // only add this, when user is logged out
                         !userId &&
-                        <Link className="btn btn-secondary btn-sm fw-bold" to="/signin">
+                        <Link className="btn btn-secondary btn-sm fw-bold" to="/login">
                             Sign in
                         </Link>
                     }
