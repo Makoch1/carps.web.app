@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 // local connection
 mongoose.connect("mongodb://localhost:27017/carps");
@@ -10,4 +10,4 @@ const schema = {
 
 const Save = mongoose.model("Save", schema);
 
-module.exports = Save;
+export { Save };

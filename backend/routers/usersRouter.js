@@ -7,7 +7,7 @@ const usersRouter = express.Router();
 usersRouter.get('/:id', getUser);
 
 // PUT Editing user profile
-usersRouter.put('/:id', editUser);
+usersRouter.put('/', editUser);
 
 // POST Registering a new user / account
 usersRouter.post('/', createUser);
