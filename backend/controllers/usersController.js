@@ -36,10 +36,33 @@ const getUser = async (req, res, next) => {
     });
 }
 
-const editUser = /* async */ (req, res, next) => {
-    const userID = req.params.id;
+const editUser = async (req, res, next) => {
+    const userID = req.body.id; // TODO: once we have auth, get the id from the auth instead
 
-    res.send(`EDIT USER ${userID}`);
+    if (!req.body.username || !req.body.description) {
+        return res.status(400).json({ message: "Missing username / description" })
+    }
+
+    // get that specific user
+    const user = await User
+        .findOneAndUpdate(
+            { _id: userID },
+            { // updates
+                username: req.body.username,
+                description: req.body.description
+            },
+            {
+                new: true,
+                fields: 'username description'
+            }
+        )
+        .exec();
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({ newUser: user });
 }
 
 const createUser = /* async */ (req, res, next) => {
