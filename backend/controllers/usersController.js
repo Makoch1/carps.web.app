@@ -1,9 +1,39 @@
+import { Post } from '../models/post.js';
+import { Save } from '../models/save.js';
 import { User } from '../models/user.js';
 
-const getUser = /* async */ (req, res, next) => {
+const getUser = async (req, res, next) => {
     const userID = req.params.id;
 
-    res.send(`GET USER ${userID}`);
+    // get user
+    const user = await User.findById(req.params.id).exec();
+    if (!user) {
+        return res.status(404).json({ message: "User not found" })
+    }
+
+    // get posts by user
+    const posts = await Post
+        .find({ user: userID })
+        .sort({ timestamp: 'desc' })
+        .exec();
+
+    // get saved posts by user
+    const saves = await Save.find({ user: userID }).exec();
+    const savedPosts = await Post // subquery-like query
+        .find({
+            '_id': {
+                $in: saves.map(save => save.post) // get an array of post ids
+            }
+        })
+        .sort({ timestamp: 'desc' })
+        .exec();
+
+    return res.status(200).json({
+        username: user.username,
+        description: user.description,
+        posts: posts,
+        savedPosts: savedPosts,
+    });
 }
 
 const editUser = /* async */ (req, res, next) => {
