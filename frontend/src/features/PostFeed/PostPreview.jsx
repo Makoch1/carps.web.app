@@ -19,10 +19,10 @@ export function PostPreview({ postDetails }) {
                         {postDetails.upvotes + userUpvote}
                     </p>
                     <div>
-                        <button className="p-1 btn bg-transparent btn-outline-primary border-0" onClick={handleUpvote}>
+                        <button className="p-1 btn bg-transparent btn-outline-light border-0" onClick={handleUpvote}>
                             <i class="bi bi-chevron-up"></i>
                         </button>
-                        <button className="p-1 btn bg-transparent btn-outline-primary border-0" onClick={handleDownvote}>
+                        <button className="p-1 btn bg-transparent btn-outline-light border-0" onClick={handleDownvote}>
                             <i class="bi bi-chevron-down"></i>
                         </button>
                     </div>

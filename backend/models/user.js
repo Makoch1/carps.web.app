@@ -6,7 +6,7 @@ mongoose.connect("mongodb://localhost:27017/carps");
 const schema = {
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    // picture: { } 
+    picture: { type: Buffer, required: true },
     description: { type: String }
 };
 

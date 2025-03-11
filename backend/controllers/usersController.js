@@ -50,6 +50,7 @@ const editUser = async (req, res, next) => {
             { // updates
                 username: req.body.username,
                 description: req.body.description
+                picture: 
             },
             {
                 new: true,
