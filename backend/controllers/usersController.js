@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { Post } from '../models/post.js';
 import { Save } from '../models/save.js';
 import { User } from '../models/user.js';
@@ -73,14 +74,14 @@ const editUser = async (req, res, next) => {
     return res.status(200).json({ newUser: user });
 }
 
-const createUser = /* async */ (req, res, next) => {
+const createUser = async (req, res, next) => {
     if (!req.body.username || !req.body.password) {
         return res.status(400).json({ message: "Missing username / password" });
     }
 
     const newUser = new User({
         username: req.body.username,
-        password: req.body.password, // hash this in th future
+        password: await bcrypt.hash(req.body.password, 10),
         description: '', // when registering, only username and password is given by user
     })
 
