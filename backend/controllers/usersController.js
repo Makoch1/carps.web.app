@@ -81,7 +81,7 @@ const createUser = /* async */ (req, res, next) => {
     const newUser = new User({
         username: req.body.username,
         password: req.body.password, // hash this in th future
-        description: req.body.description,
+        description: '', // when registering, only username and password is given by user
     })
 
     newUser.save()

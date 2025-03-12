@@ -1,10 +1,10 @@
 import { editProfileData } from '../../utils/editProfileData.js';
 
 export function CurProfile({ userId, profilePicture, description }) {
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
 
-        if (editProfileData(userId, e.target.description.value)) {
+        if (await editProfileData(userId, e.target.description.value)) {
             window.alert("Edit successful!")
         } else {
             window.alert("Edit failed!")
