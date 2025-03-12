@@ -6,14 +6,12 @@ import { CurProfile } from '../../features/Edit/CurProfile.jsx'
 
 export const Route = createFileRoute('/profile/$userId')({
     loader: ({ params: { userId } }) => {
-        // once backend is complete, replace this
         return getProfileData(userId);
     },
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    // get the data from the loader
     const profileData = Route.useLoaderData();
 
     /* This is where you define the possible "tabs" and the components related to them
@@ -22,7 +20,7 @@ function RouteComponent() {
     const Tabs = Object.freeze({
         posts: <PostFeed posts={profileData.posts} />,
         saved: <PostFeed posts={profileData.savedPosts} />,
-        edit: <CurProfile profilePicture={profileData.profilePicture} description={profileData.description}/>
+        edit: <CurProfile profilePicture={profileData.profilePicture} description={profileData.description} />
     });
 
     const [currentTab, setCurrentTab] = useState('posts') // posts are displayed by default

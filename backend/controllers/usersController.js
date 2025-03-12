@@ -2,6 +2,7 @@ import { Post } from '../models/post.js';
 import { Save } from '../models/save.js';
 import { User } from '../models/user.js';
 
+// TODO: once upvotes vote system is done, when getting posts make sure to get the upvotes
 const getUser = async (req, res, next) => {
     const userID = req.params.id;
 
@@ -17,6 +18,9 @@ const getUser = async (req, res, next) => {
         .sort({ timestamp: 'desc' })
         .exec();
 
+    // attach this user to the posts
+    posts.forEach(post => post.user = user);
+
     // get saved posts by user
     const saves = await Save.find({ user: userID }).exec();
     const savedPosts = await Post // subquery-like query
@@ -27,6 +31,11 @@ const getUser = async (req, res, next) => {
         })
         .sort({ timestamp: 'desc' })
         .exec();
+
+    // get the user details of the saved posts
+    for (const post of savedPosts) {
+        post.user = await User.findById(post.user).exec();
+    }
 
     return res.status(200).json({
         username: user.username,
