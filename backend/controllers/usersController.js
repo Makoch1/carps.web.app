@@ -1,7 +1,9 @@
+import bcrypt from 'bcrypt';
 import { Post } from '../models/post.js';
 import { Save } from '../models/save.js';
 import { User } from '../models/user.js';
 
+// TODO: once upvotes vote system is done, when getting posts make sure to get the upvotes
 const getUser = async (req, res, next) => {
     const userID = req.params.id;
 
@@ -17,6 +19,9 @@ const getUser = async (req, res, next) => {
         .sort({ timestamp: 'desc' })
         .exec();
 
+    // attach this user to the posts
+    posts.forEach(post => post.user = user);
+
     // get saved posts by user
     const saves = await Save.find({ user: userID }).exec();
     const savedPosts = await Post // subquery-like query
@@ -27,6 +32,11 @@ const getUser = async (req, res, next) => {
         })
         .sort({ timestamp: 'desc' })
         .exec();
+
+    // get the user details of the saved posts
+    for (const post of savedPosts) {
+        post.user = await User.findById(post.user).exec();
+    }
 
     return res.status(200).json({
         username: user.username,
@@ -39,8 +49,8 @@ const getUser = async (req, res, next) => {
 const editUser = async (req, res, next) => {
     const userID = req.body.id; // TODO: once we have auth, get the id from the auth instead
 
-    if (!req.body.username || !req.body.description) {
-        return res.status(400).json({ message: "Missing username / description" })
+    if (!req.body.description) {
+        return res.status(400).json({ message: "Missing new description" })
     }
 
     // get that specific user
@@ -48,7 +58,6 @@ const editUser = async (req, res, next) => {
         .findOneAndUpdate(
             { _id: userID },
             { // updates
-                username: req.body.username,
                 description: req.body.description
             },
             {
@@ -65,15 +74,15 @@ const editUser = async (req, res, next) => {
     return res.status(200).json({ newUser: user });
 }
 
-const createUser = /* async */ (req, res, next) => {
+const createUser = async (req, res, next) => {
     if (!req.body.username || !req.body.password) {
         return res.status(400).json({ message: "Missing username / password" });
     }
 
     const newUser = new User({
         username: req.body.username,
-        password: req.body.password, // hash this in th future
-        description: req.body.description,
+        password: await bcrypt.hash(req.body.password, 10),
+        description: '', // when registering, only username and password is given by user
     })
 
     newUser.save()
