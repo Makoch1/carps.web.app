@@ -1,4 +1,16 @@
-export function CurProfile({ profilePicture, description }) {
+import { editProfileData } from '../../utils/editProfileData.js';
+
+export function CurProfile({ userId, profilePicture, description }) {
+    function handleSubmit(e) {
+        e.preventDefault()
+
+        if (editProfileData(userId, e.target.description.value)) {
+            window.alert("Edit successful!")
+        } else {
+            window.alert("Edit failed!")
+        }
+    }
+
     return (
         <div className="container">
             <div className="row justify-content-center align-self-center">
@@ -6,7 +18,7 @@ export function CurProfile({ profilePicture, description }) {
                     <div>
                         <h4 className="mb-4 mt-0 btn btn-primary btn-lg">Profile Photo</h4>
                     </div>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="row g-3 text-center justify-content-center align-self-center">
                             <img className="rounded-circle shadow-4-strong w-50 h-50" src={profilePicture} />
                             <div className="text-center">
@@ -23,7 +35,7 @@ export function CurProfile({ profilePicture, description }) {
                             <label htmlFor="inputDescription" className="form-label">
                                 <h4 className="mb-4 mt-0 btn btn-primary btn-lg">Description</h4>
                             </label>
-                            <textarea type="text" className="form-control bg-primary" placeholder={description} id="inputDescription" rows="5"></textarea>
+                            <textarea type="text" className="form-control bg-primary" placeholder={description} name='description' id="inputDescription" rows="5"></textarea>
                         </div>
                         <div className="gap-3 d-md-flex justify-content-center text-center">
                             <label className="btn btn-primary btn-lg">

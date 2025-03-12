@@ -48,8 +48,8 @@ const getUser = async (req, res, next) => {
 const editUser = async (req, res, next) => {
     const userID = req.body.id; // TODO: once we have auth, get the id from the auth instead
 
-    if (!req.body.username || !req.body.description) {
-        return res.status(400).json({ message: "Missing username / description" })
+    if (!req.body.description) {
+        return res.status(400).json({ message: "Missing new description" })
     }
 
     // get that specific user
@@ -57,7 +57,6 @@ const editUser = async (req, res, next) => {
         .findOneAndUpdate(
             { _id: userID },
             { // updates
-                username: req.body.username,
                 description: req.body.description
             },
             {

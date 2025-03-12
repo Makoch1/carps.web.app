@@ -20,7 +20,7 @@ function RouteComponent() {
     const Tabs = Object.freeze({
         posts: <PostFeed posts={profileData.posts} />,
         saved: <PostFeed posts={profileData.savedPosts} />,
-        edit: <CurProfile profilePicture={profileData.profilePicture} description={profileData.description} />
+        edit: <CurProfile userId={profileData.userId} profilePicture={profileData.profilePicture} description={profileData.description} />
     });
 
     const [currentTab, setCurrentTab] = useState('posts') // posts are displayed by default
