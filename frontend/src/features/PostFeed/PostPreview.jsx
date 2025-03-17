@@ -11,6 +11,15 @@ export function PostPreview({ postDetails }) {
             <span className="badge rounded-pill text-bg-primary fs-6" key={index}>{tag}</span>
         )
 
+    const date = (new Date(postDetails.timestamp))
+        .toLocaleString("en-GB", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric"
+        });
+
     return (
         <div className="d-flex my-5" >
             <div className='w-25 d-flex'>
@@ -39,7 +48,7 @@ export function PostPreview({ postDetails }) {
                         }
                         <div className="d-flex flex-column">
                             <span className="fs-5">{postDetails.user.username}</span>
-                            <span className="fw-light fst-italic">{postDetails.timestamp}</span>
+                            <span className="fw-light fst-italic">{date}</span>
                         </div>
                     </div>
                 </div>
@@ -55,7 +64,7 @@ export function PostPreview({ postDetails }) {
                     <span className='text-uppercase'>{postDetails.destination}</span>
                 </span>
                 <p className="ps-3 text-truncate">{postDetails.description}</p>
-                <Link className="stretched-link" to={`/post/${postDetails.postId}`}></Link>
+                <Link className="stretched-link" to={`/post/${postDetails._id}`}></Link>
             </div>
         </div>
     )
