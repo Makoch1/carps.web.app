@@ -2,7 +2,12 @@ import { useUpvote } from '../../hooks/useUpvote.js'
 import { Link } from "@tanstack/react-router";
 
 export function PostPreview({ postDetails }) {
-    const [userUpvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
+    const [
+        userUpvote,
+        upvoteColor,
+        handleUpvote,
+        handleDownvote
+    ] = useUpvote(postDetails.user._id, postDetails._id, 'post'); // TODO: user should be current user, and get initial value of upvote
 
     // gets only the first two tags
     const tags = postDetails.tags
