@@ -3,6 +3,7 @@ import { Post } from '../models/post.js';
 import { Save } from '../models/save.js';
 import { User } from '../models/user.js';
 import { getVotes } from '../utils/getVotes.js';
+import { getUserVote } from '../utils/getUserVote.js';
 
 // TODO: once upvotes vote system is done, when getting posts make sure to get the upvotes
 const getUser = async (req, res, next) => {
@@ -25,6 +26,7 @@ const getUser = async (req, res, next) => {
     posts.forEach(async (post) => {
         post.user = user;
         post.upvotes = await getVotes('post', post._id);
+        post.userVote = await getUserVote('post', userID, post._id);
     });
 
     // get saved posts by user
@@ -43,6 +45,7 @@ const getUser = async (req, res, next) => {
     for (const post of savedPosts) {
         post.user = await User.findById(post.user).exec();
         post.upvotes = await getVotes('post', post._id);
+        post.userVote = await getUserVote('post', userID, post._id);
     }
 
     return res.status(200).json({
