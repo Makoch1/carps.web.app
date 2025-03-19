@@ -7,7 +7,7 @@ import { getProfilePictureUrl } from '../utils/getProfilePictureUrl.js';
 
 //show comments corresponding post
 const getComment = async (req, res, next) => {
-    const userID = '67cdbd2ec6a761b7da2dda26'; // TODO: once auth is done, change this to get actual user id
+    const userID = req.body.auth ? req.body.auth : '';
     // to show all comments to a corresponding post
     const postID = req.params.postID;
 

@@ -11,7 +11,7 @@ const PAGE_SIZE = 15;
 
 // Get all posts
 const getAllPosts = async (req, res, next) => {
-    const userID = '67cdbd2ec6a761b7da2dda26'// TODO: once auth is done, change this to get actual user id
+    const userID = req.body.auth ? req.body.auth : '';
     const {
         start,
         destination,
@@ -97,7 +97,7 @@ const getAllPosts = async (req, res, next) => {
 
 // Get a single post by ID
 const getPost = async (req, res, next) => {
-    const userID = '67cdbd2ec6a761b7da2dda26'; // TODO: once auth is done change this
+    const userID = req.body.auth ? req.body.auth : '';
     const postID = req.params.id;
 
     const post = await Post
@@ -187,13 +187,13 @@ const createPost = async (req, res) => {
         timestamp: new Date().toLocaleString()
     })
 
-    .then(() => {
-        res.sendStatus(200);
-    })
+        .then(() => {
+            res.sendStatus(200);
+        })
 
-    .catch(() => {
-        res.sendStatus(500);
-    });
+        .catch(() => {
+            res.sendStatus(500);
+        });
 
 }
 
@@ -204,34 +204,34 @@ const createPost = async (req, res) => {
 const editPost = (req, res) => {
 
     Post.findById(req.params.id)
-    
-    .then ((post) => {
 
-        if (post.user.toString() == req.body.auth) {
+        .then((post) => {
 
-            post.start = req.body.start;
-            post.destination = req.body.destination;
-            post.tags = req.body.tags;
-            post.isOneWay = req.body.type == 'one-way' ? true : false;
-            post.description = req.body.description;
+            if (post.user.toString() == req.body.auth) {
 
-            post.save()
+                post.start = req.body.start;
+                post.destination = req.body.destination;
+                post.tags = req.body.tags;
+                post.isOneWay = req.body.type == 'one-way' ? true : false;
+                post.description = req.body.description;
 
-            .then((result) => {
-                res.sendStatus(200);
-            })
+                post.save()
 
-            .catch((error) => {
-                res.sendStatus(500);
-            });
+                    .then((result) => {
+                        res.sendStatus(200);
+                    })
 
-        }
+                    .catch((error) => {
+                        res.sendStatus(500);
+                    });
 
-    })
+            }
 
-    .catch((error) => {
-        res.sendStatus(500);
-    });
+        })
+
+        .catch((error) => {
+            res.sendStatus(500);
+        });
 
 };
 

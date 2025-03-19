@@ -9,6 +9,10 @@ import { CommentVote } from '../models/commentvote.js';
  * @returns { number } total votes
  */
 async function getUserVote(modelName, userID, contentID) {
+    if (userID === '') {
+        return 0;
+    }
+
     const Model = {
         'post': PostVote,
         'comment': CommentVote,
