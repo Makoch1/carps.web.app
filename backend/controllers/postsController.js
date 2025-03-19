@@ -1,12 +1,75 @@
+import mongoose from 'mongoose';
 import { Post } from '../models/post.js';
+import { PostVote } from '../models/postvote.js';
 import { User } from '../models/user.js';
+
+const PAGE_SIZE = 15;
 
 // Get all posts
 const getAllPosts = async (req, res, next) => {
-    try {
-        const posts = await Post.find()
+    const {
+        start,
+        destination,
+        page,
+        sort,
+        tags
+    } = req.query;
+
+    const filters = {
+        start: { $regex: start, $options: "i" },
+        destination: { $regex: destination, $options: "i" },
+        ...(tags.length && { tags: { $all: tags } }) // normal way doesn't work when tags is empty
+    }
+    const skip = (page - 1) * PAGE_SIZE;
+
+    if (sort === 'popular') {
+        // https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/
+        // https://stackoverflow.com/questions/68071886/mongo-aggregate-match-group-with-sum-return-0-if-no-matches
+        const posts = await Post.aggregate([
+            { $match: filters },
+            {
+                $lookup: {
+                    from: "postvotes",
+                    let: { postID: "$_id" },
+                    pipeline: [
+                        {
+                            $group: {
+                                _id: "$$postID",
+                                total: {
+                                    $sum: {
+                                        $cond: {
+                                            "if": { $eq: ["$post", "$$postID"] },
+                                            "then": { $cond: ["$impression", 1, -1] },
+                                            "else": 0,
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    ],
+                    as: "votes"
+                }
+            },
+            { $unwind: "$votes" },
+            { $sort: { "votes.total": -1 } },
+            { $skip: skip },
+            { $limit: PAGE_SIZE }
+        ])
+
+        await User.populate(posts, { path: "user" });
+
+        if (!posts.length) {
+            return res.status(404).json({ message: "No posts found" });
+        }
+
+        return res.status(200).json(posts);
+    } else { // if sorting by new
+        const posts = await Post
+            .find(filters)
             .sort({ timestamp: 'desc' })
-            .populate('user', 'username description')
+            .populate('user')
+            .skip(skip)
+            .limit(PAGE_SIZE)
             .exec();
 
         if (!posts.length) {
@@ -14,9 +77,6 @@ const getAllPosts = async (req, res, next) => {
         }
 
         return res.status(200).json(posts);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Server error" });
     }
 };
 
