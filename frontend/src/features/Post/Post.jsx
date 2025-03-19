@@ -3,15 +3,34 @@ import { useUpvote } from '../../hooks/useUpvote.js'
 import { UserIcon } from '../../components/UserIcon.jsx'
 import { Comment } from './Comment.jsx'
 import { Link, useRouter } from '@tanstack/react-router';
+import axios from 'axios';
+import { BACKEND_BASE_URL } from '../../utils/constants.js';
 
 export function Post({ postDetails }) {
-    const [upvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
+    const [
+        upvote,
+        upvoteColor,
+        handleUpvote,
+        handleDownvote
+    ] = useUpvote(postDetails.user._id, postDetails._id, 'post', postDetails.userVote); // TODO: get the user next time once auth is done
     const [comment, setComment] = useState('');
-    const [saved, setSaved] = useState(false); // TODO: next time, instead of false, check backend if post is saved
+    const [saved, setSaved] = useState(postDetails.isSaved); // TODO: next time, instead of false, check backend if post is saved
     const { history } = useRouter();
 
+    // remove the user's upvote from the totalUpvotes, otherwise it is counted twice
+    const upvotes = postDetails.upvotes - postDetails.userVote;
+
     function handleSave() {
-        // once backend is done, add a call to backend
+        axios({
+            method: 'post',
+            baseURL: BACKEND_BASE_URL,
+            url: '/posts/save',
+            data: {
+                postID: postDetails._id,
+            }
+        })
+            .then(res => console.log(res))
+
         setSaved(!saved)
     }
 
@@ -29,14 +48,14 @@ export function Post({ postDetails }) {
                     <i className='bi bi-arrow-return-left'></i>
                 </button>
                 <div className='d-flex gap-1 align-items-center fs-5 fw-bold fst-italic'>
-                    <UserIcon userIcon={postDetails.user.userIcon} />
+                    <UserIcon userIcon={postDetails.user.picture} />
                     <p className='m-0'>{postDetails.user.username}</p>
                 </div>
             </div>
             <h1 className='my-3 fs-2 fw-bold'>
                 {postDetails.start}
                 {
-                    postDetails.oneWay ?
+                    postDetails.isOneWay ?
                         <i className='mx-2 bi bi-arrow-right'></i> :
                         <i className='mx-2 bi bi-arrow-left-right'></i>
                 }
@@ -63,7 +82,7 @@ export function Post({ postDetails }) {
                         onClick={handleUpvote}>
                         <i className='bi bi-chevron-up'></i>
                     </button>
-                    <span className='mx-2 fw-bold' style={{ color: upvoteColor() }}>{postDetails.upvotes + upvote}</span>
+                    <span className='mx-2 fw-bold' style={{ color: upvoteColor() }}>{upvotes + upvote}</span>
                     <button
                         className='btn bg-transparent btn-outline-primary border-0'
                         onClick={handleDownvote}>
