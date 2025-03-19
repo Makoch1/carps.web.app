@@ -3,6 +3,8 @@ import { User } from '../models/user.js';
 import { getVotes } from '../utils/getVotes.js';
 import { getUserVote } from '../utils/getUserVote.js';
 import { getProfilePictureUrl } from '../utils/getProfilePictureUrl.js';
+//stand in admin how to auth haha
+import { Admin } from '../models/admin.js';
 
 
 //show comments corresponding post
