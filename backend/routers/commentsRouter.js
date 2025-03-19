@@ -1,11 +1,11 @@
 import express from 'express';
 import { getComment, createComment, createReply, updateComment, deleteComment } from '../controllers/commentsController.js'
-import { checkRefreshToken, reloadAccessToken } from '../controllers/authenticationController.js';
+import { checkAuthorization, checkRefreshToken, reloadAccessToken } from '../controllers/authenticationController.js';
 
 const commentsRouter = express.Router();
 
 // GET comment in corresponding post
-commentsRouter.get('/:postID/comment', getComment);
+commentsRouter.get('/:postID/comment', checkAuthorization, getComment);
 
 // POST comment under post
 commentsRouter.post('/:postID/comment', checkRefreshToken, reloadAccessToken, createComment);
