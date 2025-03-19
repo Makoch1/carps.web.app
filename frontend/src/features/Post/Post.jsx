@@ -48,6 +48,23 @@ export function Post({ postDetails }) {
             .catch(_ => window.alert("Delete Failed!"))
     }
 
+    function handleComment() {
+        axios({
+            method: 'post',
+            baseURL: BACKEND_BASE_URL,
+            url: `comments/${postDetails._id}/comment`,
+            data: {
+                comment: comment
+            }
+        })
+            .then(_ => navigate({ to: `/post/${postDetails._id}` }))
+            .catch(err => {
+                if (err.status === 401 || err.status === 403) {
+                    navigate({ to: '/login' })
+                }
+            })
+    }
+
     return (
         <div className="w-50 mx-auto mt-3">
             <div className="d-flex gap-3 align-items-end">
@@ -131,7 +148,9 @@ export function Post({ postDetails }) {
                 </textarea>
                 <div className='d-flex flex-row-reverse'>
                     <button
-                        className='btn btn-primary px-4 py-1 m-2 rounded-pill'>
+                        className='btn btn-primary px-4 py-1 m-2 rounded-pill'
+                        type='button'
+                        onClick={handleComment}>
                         Post
                     </button>
                     <button
