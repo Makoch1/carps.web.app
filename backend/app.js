@@ -15,9 +15,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
 
+app.use(authenticationRouter);
 app.use('/users', usersRouter);
 app.use('/votes', votesRouter);
-app.use(authenticationRouter);
+app.use('/posts', postsRouter);
+app.use('/users', usersRouter);
+app.use('/votes', votesRouter);
+
 
 app.listen(PORT, (err) => {
     err ?
@@ -25,6 +29,4 @@ app.listen(PORT, (err) => {
         console.log(`App is Listening on Port ${PORT}`);
 });
 
-app.use('/posts', postsRouter);
-app.use('/users', usersRouter);
-app.use('/votes', votesRouter);
+

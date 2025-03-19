@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 import { Post } from '../models/post.js';
 import { Save } from '../models/save.js';
 import { User } from '../models/user.js';
@@ -169,4 +171,69 @@ const deletePost = async (req, res, next) => {
     }
 };
 
-export { getAllPosts, getPost, savePost, deletePost };
+
+// REQUEST HANDLER:
+// * Creates a post
+
+const createPost = async (req, res) => {
+
+    await Post.insertOne({
+        user: new mongoose.Types.ObjectId(req.body.auth),
+        start: req.body.start,
+        destination: req.body.destination,
+        tags: req.body.tags,
+        isOneWay: req.body.type == 'one-way' ? true : false,
+        description: req.body.description,
+        timestamp: new Date().toLocaleString()
+    })
+
+    .then(() => {
+        res.sendStatus(200);
+    })
+
+    .catch(() => {
+        res.sendStatus(500);
+    });
+
+}
+
+
+// REQUEST HANDLER:
+// * Edits a post
+
+const editPost = (req, res) => {
+
+    Post.findById(req.params.id)
+    
+    .then ((post) => {
+
+        if (post.user.toString() == req.body.auth) {
+
+            post.start = req.body.start;
+            post.destination = req.body.destination;
+            post.tags = req.body.tags;
+            post.isOneWay = req.body.type == 'one-way' ? true : false;
+            post.description = req.body.description;
+
+            post.save()
+
+            .then((result) => {
+                res.sendStatus(200);
+            })
+
+            .catch((error) => {
+                res.sendStatus(500);
+            });
+
+        }
+
+    })
+
+    .catch((error) => {
+        res.sendStatus(500);
+    });
+
+};
+
+
+export { getAllPosts, getPost, savePost, deletePost, createPost, editPost };
