@@ -1,13 +1,16 @@
 import express from 'express';
-import { getComment, createComment, updateComment, deleteComment } from '../controllers/commentsController.js'
+import { getComment, createComment, createReply, updateComment, deleteComment } from '../controllers/commentsController.js'
 
 const commentsRouter = express.Router();
 
 // GET comment in corresponding post
 commentsRouter.get('/:postID/comment', getComment);
 
-// POST comment
+// POST comment under post
 commentsRouter.post('/:postID/comment', createComment);
+
+// POST comment (reply) under comment
+commentsRouter.post('/:postID/comment/:commentID/:replyID', createReply);
 
 // EDIT comment attributes with authorization
 commentsRouter.put('/:postID/comment/:commentID', updateComment);
