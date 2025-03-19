@@ -28,20 +28,20 @@ const checkRefreshToken = (req, res, next) => {
 
         Token.exists({ token: refreshToken })
 
-        .then((result) => {
+            .then((result) => {
 
-            if (result) {
-                next();
-            }
-            else {
-                res.sendStatus(403);
-            }
+                if (result) {
+                    next();
+                }
+                else {
+                    res.sendStatus(403);
+                }
 
-        })
+            })
 
-        .catch((error) => {
-            res.sendStatus(500);
-        });
+            .catch((error) => {
+                res.sendStatus(500);
+            });
 
     }
 
@@ -75,7 +75,7 @@ const reloadAccessToken = (req, res, next) => {
 
     jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (error, data) => {
 
-        if (error) 
+        if (error)
             res.sendStatus(403);
         else {
             req.body.auth = data.auth;
@@ -115,7 +115,7 @@ const checkAuthorization = (req, res, next) => {
 
         jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (error, data) => {
 
-            if (error) 
+            if (error)
                 res.sendStatus(403);
             else {
                 req.body.auth = data.auth;
@@ -143,27 +143,29 @@ const login = async (req, res) => {
 
     User.findOne({ username: req.body.username })
 
-    .then(async (user) => {
+        .then(async (user) => {
 
-        if (user && bcrypt.compare(req.body.password, user.password)) {
+            if (user && bcrypt.compare(req.body.password, user.password)) {
 
-            const ref = { auth: user._id.toString() };
-            const accessToken = generateAccessToken(ref);
-            const refreshToken = await Token.insertOne({ token: jwt.sign(ref, process.env.REFRESH_TOKEN_SECRET).toString() });
+                const ref = { auth: user._id.toString() };
+                const accessToken = generateAccessToken(ref);
+                const refreshToken = await Token.insertOne({ token: jwt.sign(ref, process.env.REFRESH_TOKEN_SECRET).toString() });
 
-            res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
-            res.cookie('refreshToken', refreshToken.token, { maxAge: 1000 * 60 * 60 * 8, httpOnly: true, secure: true, sameSite: 'Strict' });            
-            res.sendStatus(200);
+                res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
+                res.cookie('refreshToken', refreshToken.token, { maxAge: 1000 * 60 * 60 * 8, httpOnly: true, secure: true, sameSite: 'Strict' });
+                res.sendStatus(200);
 
-        }
+            } else {
+                res.sendStatus(400);
+            }
 
-    })
+        })
 
-    .catch((error) => {
+        .catch((error) => {
 
-        res.sendStatus(500);
+            res.sendStatus(500);
 
-    });
+        });
 
 };
 

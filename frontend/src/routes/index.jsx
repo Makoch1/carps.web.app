@@ -24,7 +24,6 @@ export const Route = createFileRoute('/')({
     loader: ({ deps: { start, end, page, sort, filters } }) => getPosts(start, end, page, sort, filters),
     component: () => {
         const posts = Route.useLoaderData();
-        console.log(posts)
 
         return (
             <div className="d-flex">
