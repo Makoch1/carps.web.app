@@ -5,7 +5,7 @@ export function PostFeed({ posts }) {
         <>
             <div className='w-100 h-auto ms-auto'>
                 {
-                    posts.map((post, index) => <PostPreview postDetails={post} key={index} />)
+                    posts.map(post => <PostPreview postDetails={post} key={post._id} />)
                 }
             </div>
         </>

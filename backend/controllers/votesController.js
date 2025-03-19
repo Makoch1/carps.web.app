@@ -8,7 +8,7 @@ import { User } from '../models/user.js';
  *  REQ.BODY = {
  *      userID,
  *      postID,
- *      vote -> either [true] for upvote, or [false] for downvote
+ *      vote -> either [1] for upvote, or [-1] for downvote, or [0] for reset / remove
  *  }
  */
 const votePost = async (req, res, next) => {
@@ -25,20 +25,24 @@ const votePost = async (req, res, next) => {
     }
 
     // check if there is a matching vote already
-    const existingVote = await PostVote.exists({ user: user, post: post }).exec();
+    const existingVote = await PostVote.exists({ user: userID, post: postID }).exec();
 
     // if there is, update the vote
     // if there isnt, create a new vote record
     if (existingVote) {
-        await PostVote.updateOne(
-            { user: user, post: post },
-            { impression: vote }
-        )
+        if (vote === 0) {
+            await PostVote.deleteOne({ user: userID, post: postID });
+        } else {
+            await PostVote.updateOne(
+                { user: userID, post: postID },
+                { impression: vote === 1 }
+            )
+        }
     } else {
         await PostVote.create({
-            user: user,
-            post: post,
-            impression: vote
+            user: userID,
+            post: postID,
+            impression: vote === 1 // returns false if downvote
         });
     }
 
@@ -49,7 +53,7 @@ const votePost = async (req, res, next) => {
  *  REQ.BODY = {
  *      userID,
  *      commentID,
- *      vote -> either [true] for upvote, or [false] for downvote
+ *      vote -> either [1] for upvote, or [-1] for downvote, or [0] for remove
  *  }
  */
 const voteComment = async (req, res, next) => {
@@ -66,19 +70,23 @@ const voteComment = async (req, res, next) => {
     }
 
     // check if there is a matching vote already
-    const existingVote = await CommentVote.exists({ user: user, comment: comment }).exec();
+    const existingVote = await CommentVote.exists({ user: userID, comment: commentID }).exec();
 
     // if there is, update the vote
     // if there isnt, create a new vote record
     if (existingVote) {
-        await CommentVote.updateOne(
-            { user: user, comment: comment },
-            { impression: vote }
-        )
+        if (vote === 0) {
+            await CommentVote.deleteOne({ user: userID, comment: commentID });
+        } else {
+            await CommentVote.updateOne(
+                { user: userID, comment: commentID },
+                { impression: vote }
+            )
+        }
     } else {
         await CommentVote.create({
-            user: user,
-            comment: comment,
+            user: userID,
+            comment: commentID,
             impression: vote
         });
     }

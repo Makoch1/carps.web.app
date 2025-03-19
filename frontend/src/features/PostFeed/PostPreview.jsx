@@ -2,7 +2,13 @@ import { useUpvote } from '../../hooks/useUpvote.js'
 import { Link } from "@tanstack/react-router";
 
 export function PostPreview({ postDetails }) {
-    const [userUpvote, upvoteColor, handleUpvote, handleDownvote] = useUpvote();
+    const [
+        userUpvote,
+        upvoteColor,
+        handleUpvote,
+        handleDownvote
+    ] = useUpvote(postDetails.user._id, postDetails._id, 'post', postDetails.userVote);
+    // TODO: user should be current user + redirect when not logged in
 
     // gets only the first two tags
     const tags = postDetails.tags
@@ -20,12 +26,15 @@ export function PostPreview({ postDetails }) {
             minute: "numeric"
         });
 
+    // remove the user's upvote from the totalUpvotes, otherwise it is counted twice
+    const upvotes = postDetails.upvotes - postDetails.userVote;
+
     return (
         <div className="d-flex my-5" >
             <div className='w-25 d-flex'>
                 <div className="mx-3 my-auto">
                     <p className="w-100 m-0 text-center fs-4 fw-bold" style={{ color: upvoteColor() }}>
-                        {postDetails.upvotes + userUpvote}
+                        {upvotes + userUpvote}
                     </p>
                     <div>
                         <button className="p-1 btn bg-transparent btn-outline-primary border-0" onClick={handleUpvote}>
