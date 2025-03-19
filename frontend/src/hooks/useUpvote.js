@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { BACKEND_BASE_URL } from "../utils/constants";
+import { useNavigate } from "@tanstack/react-router";
 
 /**
  * @param {string} userId - id of the current user
@@ -10,18 +11,30 @@ import { BACKEND_BASE_URL } from "../utils/constants";
  */
 export function useUpvote(userId, contentId, type = 'post', initialValue = 0) {
     const [upvote, setUpvote] = useState(initialValue);
+    const navigate = useNavigate();
 
     const handleUpvote = () => {
         const newUpvote = upvote === 1 ? 0 : 1;
 
-        setUpvote(newUpvote);
-        upvoteApiRequest(userId, contentId, type, newUpvote);
+        upvoteApiRequest(userId, contentId, type, newUpvote)
+            .then(_ => setUpvote(newUpvote))
+            .catch(err => {
+                if (err.status === 401 || err.status === 403) {
+                    navigate({ to: '/login' });
+                }
+            })
     }
     const handleDownvote = () => {
         const newUpvote = upvote === -1 ? 0 : -1;
 
         setUpvote(newUpvote);
-        upvoteApiRequest(userId, contentId, type, newUpvote);
+        upvoteApiRequest(userId, contentId, type, newUpvote, navigate)
+            .then(_ => setUpvote(newUpvote))
+            .catch(err => {
+                if (err.status === 401 || err.status === 403) {
+                    navigate({ to: '/login' });
+                }
+            })
     }
 
     const upvoteColor = () => {
@@ -41,7 +54,7 @@ export function useUpvote(userId, contentId, type = 'post', initialValue = 0) {
 }
 
 function upvoteApiRequest(userId, contentId, type, upvote) {
-    axios({
+    return axios({
         method: 'post',
         baseURL: BACKEND_BASE_URL,
         url: `votes/${type}`,
