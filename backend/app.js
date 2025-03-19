@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import { postsRouter } from './routers/postsRouter.js';
 import { usersRouter } from './routers/usersRouter.js';
 import { votesRouter } from './routers/votesRouter.js';
+import { commentsRouter } from './routers/commentsRouter.js';
 import { authenticationRouter } from './routers/authenticationRoute.js';
 
 const PORT = 3000;
@@ -16,8 +17,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use(authenticationRouter);
-app.use('/users', usersRouter);
-app.use('/votes', votesRouter);
+app.use('/comments', commentsRouter);
 app.use('/posts', postsRouter);
 app.use('/users', usersRouter);
 app.use('/votes', votesRouter);

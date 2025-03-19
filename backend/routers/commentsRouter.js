@@ -11,12 +11,12 @@ commentsRouter.get('/:postID/comment', getComment);
 commentsRouter.post('/:postID/comment', checkRefreshToken, reloadAccessToken, createComment);
 
 // POST comment (reply) under comment
-commentsRouter.post('/:postID/comment/:commentID/:replyID', checkRefreshToken, reloadAccessToken, createReply);
+commentsRouter.post('/:postID/comment/:commentID', checkRefreshToken, reloadAccessToken, createReply);
 
 // EDIT comment attributes with authorization
-commentsRouter.put('/:postID/comment/:commentID', updateComment);
+commentsRouter.put('/:postID/comment/:commentID', checkRefreshToken, reloadAccessToken, updateComment);
 
 // DELETE comment with authorization
-commentsRouter.delete('/:postID/comment/:commentID', deleteComment);
+commentsRouter.delete('/:postID/comment/:commentID', checkRefreshToken, reloadAccessToken, deleteComment);
 
 export { commentsRouter }
