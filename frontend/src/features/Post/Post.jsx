@@ -39,8 +39,13 @@ export function Post({ postDetails }) {
     }
 
     function handleDelete() {
-        // TODO: change to a backend call
-        window.alert("Are you sure about that?")
+        axios({
+            method: 'delete',
+            baseURL: BACKEND_BASE_URL,
+            url: `posts/${postDetails._id}`
+        })
+            .then(_ => navigate({ to: '/' }))
+            .catch(_ => window.alert("Delete Failed!"))
     }
 
     return (
