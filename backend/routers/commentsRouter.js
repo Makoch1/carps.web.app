@@ -1,5 +1,6 @@
 import express from 'express';
 import { getComment, createComment, createReply, updateComment, deleteComment } from '../controllers/commentsController.js'
+import { checkRefreshToken, reloadAccessToken } from '../controllers/authenticationController.js';
 
 const commentsRouter = express.Router();
 
@@ -7,10 +8,10 @@ const commentsRouter = express.Router();
 commentsRouter.get('/:postID/comment', getComment);
 
 // POST comment under post
-commentsRouter.post('/:postID/comment', createComment);
+commentsRouter.post('/:postID/comment', checkRefreshToken, reloadAccessToken, createComment);
 
 // POST comment (reply) under comment
-commentsRouter.post('/:postID/comment/:commentID/:replyID', createReply);
+commentsRouter.post('/:postID/comment/:commentID/:replyID', checkRefreshToken, reloadAccessToken, createReply);
 
 // EDIT comment attributes with authorization
 commentsRouter.put('/:postID/comment/:commentID', updateComment);

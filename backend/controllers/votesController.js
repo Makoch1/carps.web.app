@@ -12,7 +12,7 @@ import { User } from '../models/user.js';
  *  }
  */
 const votePost = async (req, res, next) => {
-    const userID = req.body.userID;
+    const userID = req.body.auth;
     const postID = req.body.postID;
     const vote = req.body.vote; // vote type, true for upvote, false for upvote
 
@@ -57,7 +57,7 @@ const votePost = async (req, res, next) => {
  *  }
  */
 const voteComment = async (req, res, next) => {
-    const userID = req.body.userID;
+    const userID = req.body.auth;
     const commentID = req.body.commentID;
     const vote = req.body.vote; // vote type, true for upvote, false for upvote
 

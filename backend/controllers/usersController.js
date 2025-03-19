@@ -61,9 +61,9 @@ const getUser = async (req, res, next) => {
 }
 
 const editUser = async (req, res, next) => {
-    const userID = req.body.id; // TODO: once we have auth, get the id from the auth instead
+    const userID = req.body.auth;
     const newDescription = req.body.description;
-    const newPicture = req.body.picture.path;
+    const newPicture = req.body.picture;
 
     if (!newDescription && !newPicture) {
         return res.status(400).json({ message: "Missing edits" })

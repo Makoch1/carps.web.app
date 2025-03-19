@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useUpvote } from '../../hooks/useUpvote.js'
 import { UserIcon } from '../../components/UserIcon.jsx'
 import { Comment } from './Comment.jsx'
-import { Link, useRouter } from '@tanstack/react-router';
+import { Link, useNavigate, useRouter } from '@tanstack/react-router';
 import axios from 'axios';
 import { BACKEND_BASE_URL } from '../../utils/constants.js';
 
@@ -15,6 +15,7 @@ export function Post({ postDetails }) {
     ] = useUpvote(postDetails.user._id, postDetails._id, 'post', postDetails.userVote); // TODO: get the user next time once auth is done
     const [comment, setComment] = useState('');
     const [saved, setSaved] = useState(postDetails.isSaved); // TODO: next time, instead of false, check backend if post is saved
+    const navigate = useNavigate();
     const { history } = useRouter();
 
     // remove the user's upvote from the totalUpvotes, otherwise it is counted twice
@@ -29,14 +30,22 @@ export function Post({ postDetails }) {
                 postID: postDetails._id,
             }
         })
-            .then(res => console.log(res))
-
-        setSaved(!saved)
+            .then(_ => setSaved(!saved))
+            .catch(err => {
+                if (err.status === 401 || err.status === 403) {
+                    navigate({ to: '/login' })
+                }
+            })
     }
 
     function handleDelete() {
-        // TODO: change to a backend call
-        window.alert("Are you sure about that?")
+        axios({
+            method: 'delete',
+            baseURL: BACKEND_BASE_URL,
+            url: `posts/${postDetails._id}`
+        })
+            .then(_ => navigate({ to: '/' }))
+            .catch(_ => window.alert("Delete Failed!"))
     }
 
     return (
