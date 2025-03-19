@@ -19,7 +19,7 @@ const getComment = async (req, res, next) => {
 
     // get comments under post
     const comments = await Comment
-        .find({ parentPost: postID })
+        .find({ parentPost: postID, parentComment: null })
         .populate('user')
         .sort({ timestamp: 'desc' })
         .lean()
@@ -27,6 +27,14 @@ const getComment = async (req, res, next) => {
 
     for (const comment of comments) {
         const commentID = comment._id;
+
+        // get the comments nested within TODO: this isnt techincally correct yet
+        comment.children = await Comment
+            .find({ parentComment: commentID })
+            .populate('user')
+            .lean()
+            .exec();
+
         // comment votes
         comment.upvotes = await getVotes('comment', commentID);
         comment.userVote = await getUserVote('comment', userID, commentID);
