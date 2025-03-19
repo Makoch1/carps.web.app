@@ -178,13 +178,13 @@ const deletePost = async (req, res, next) => {
 const createPost = async (req, res) => {
 
     await Post.insertOne({
-        user: new mongoose.Types.ObjectId(req.body.auth),
+        user: req.body.auth,
         start: req.body.start,
         destination: req.body.destination,
         tags: req.body.tags,
         isOneWay: req.body.type == 'one-way' ? true : false,
         description: req.body.description,
-        timestamp: new Date().toLocaleString()
+        timestamp: Date.now()
     })
 
         .then(() => {
