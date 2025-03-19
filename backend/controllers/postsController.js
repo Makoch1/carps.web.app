@@ -1,12 +1,13 @@
-import mongoose from 'mongoose';
 import { Post } from '../models/post.js';
-import { PostVote } from '../models/postvote.js';
 import { User } from '../models/user.js';
+import { getVotes } from '../utils/getVotes.js';
+import { getUserVote } from '../utils/getUserVote.js';
 
 const PAGE_SIZE = 15;
 
 // Get all posts
 const getAllPosts = async (req, res, next) => {
+    const userID = '67cdbd2ec6a761b7da2dda26'// TODO: once auth is done, change this to get actual user id
     const {
         start,
         destination,
@@ -18,7 +19,7 @@ const getAllPosts = async (req, res, next) => {
     const filters = {
         start: { $regex: start, $options: "i" },
         destination: { $regex: destination, $options: "i" },
-        ...(tags.length && { tags: { $all: tags } }) // normal way doesn't work when tags is empty
+        ...(tags && tags.length && { tags: { $in: tags } }) // normal way doesn't work when tags is empty
     }
     const skip = (page - 1) * PAGE_SIZE;
 
@@ -53,16 +54,20 @@ const getAllPosts = async (req, res, next) => {
             { $unwind: "$votes" },
             { $sort: { "votes.total": -1 } },
             { $skip: skip },
-            { $limit: PAGE_SIZE }
+            { $limit: PAGE_SIZE },
+            { $addFields: { upvotes: "$votes.total" } }
         ])
 
         await User.populate(posts, { path: "user" });
+        for (const post of posts) {
+            post.userVote = await getUserVote('post', userID, post._id);
+        }
 
         if (!posts.length) {
             return res.status(404).json({ message: "No posts found" });
         }
 
-        return res.status(200).json(posts);
+        return await res.status(200).json(posts);
     } else { // if sorting by new
         const posts = await Post
             .find(filters)
@@ -70,10 +75,16 @@ const getAllPosts = async (req, res, next) => {
             .populate('user')
             .skip(skip)
             .limit(PAGE_SIZE)
+            .lean()
             .exec();
 
         if (!posts.length) {
             return res.status(404).json({ message: "No posts found" });
+        }
+
+        for (const post of posts) {
+            post.upvotes = await getVotes('post', post._id);
+            post.userVote = await getUserVote('post', userID, post._id);
         }
 
         return res.status(200).json(posts);
