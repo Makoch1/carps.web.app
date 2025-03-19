@@ -3,6 +3,7 @@ import { Save } from '../models/save.js';
 import { User } from '../models/user.js';
 import { getVotes } from '../utils/getVotes.js';
 import { getUserVote } from '../utils/getUserVote.js';
+import { getProfilePictureUrl } from '../utils/getProfilePictureUrl.js';
 
 // Get all posts
 const getAllPosts = async (req, res, next) => {
@@ -45,6 +46,9 @@ const getPost = async (req, res, next) => {
     // check if user has saved this post
     const saved = await Save.findOne({ user: userID, post: postID })
     post.isSaved = saved !== null;
+
+    // turn profile to actual profile pic link
+    post.user.picture = getProfilePictureUrl(post.user.picture);
 
     return res.status(200).json(post);
 };
