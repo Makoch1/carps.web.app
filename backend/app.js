@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-
+import { postsRouter } from './routers/postsRouter.js';
 import { usersRouter } from './routers/usersRouter.js';
 import { votesRouter } from './routers/votesRouter.js';
 import { authenticationRouter } from './routers/authenticationRoute.js';
@@ -24,3 +24,7 @@ app.listen(PORT, (err) => {
         console.log("Error: ", err) :
         console.log(`App is Listening on Port ${PORT}`);
 });
+
+app.use('/posts', postsRouter);
+app.use('/users', usersRouter);
+app.use('/votes', votesRouter);
