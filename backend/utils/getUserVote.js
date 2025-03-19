@@ -21,7 +21,6 @@ async function getUserVote(modelName, userID, contentID) {
 
     const vote = await Model.findOne({ user: userID, ...modelFilter }, 'impression').exec();
 
-    console.log(vote)
     if (!vote) {
         return 0;
     }

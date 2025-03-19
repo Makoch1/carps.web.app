@@ -1,5 +1,6 @@
 import cors from 'cors';
 import express from 'express'
+import { postsRouter } from './routers/postsRouter.js';
 import { usersRouter } from './routers/usersRouter.js';
 import { votesRouter } from './routers/votesRouter.js';
 
@@ -14,5 +15,6 @@ app.listen(PORT, (err) => {
         console.log(`App is listening on port ${PORT}`);
 });
 
+app.use('/posts', postsRouter);
 app.use('/users', usersRouter);
 app.use('/votes', votesRouter);
