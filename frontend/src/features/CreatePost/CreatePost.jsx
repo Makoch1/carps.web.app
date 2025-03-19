@@ -1,13 +1,51 @@
-import { transportTypes } from '../../utils/constants.js'
+import axios from 'axios';
+import { BACKEND_BASE_URL, transportTypes } from '../../utils/constants.js'
 import './create.css'
+import { useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 
 export function CreatePost() {
+    const [tags, setTags] = useState([]);
+    const navigate = useNavigate();
+
+    function handleTagClick(tagName) {
+        let newTags;
+
+        if (tags.includes(tagName)) {
+            newTags = tags.filter(tag => tag !== tagName);
+        } else {
+            newTags = [...tags, tagName];
+        }
+
+        setTags(newTags);
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        const form = e.target
+
+        axios({
+            method: 'post',
+            baseURL: BACKEND_BASE_URL,
+            url: '/posts',
+            data: {
+                start: form.start.value,
+                destination: form.destination.value,
+                tags: tags,
+                type: form.type.value,
+                description: form.description.value
+            },
+        })
+            .then(_ => navigate({ to: '/' }))
+            .catch(e => window.alert('An error occured!'))
+    }
 
     return (
         <div className='main'>
             <h1>Create Post</h1>
 
-            <form action='/posts' method="post">
+            <form onSubmit={handleSubmit}>
 
                 <p>Enter the start and destination.</p>
 
@@ -22,7 +60,7 @@ export function CreatePost() {
                 </div>
 
                 <div className="toggle">
-                    <input name="type" id="round" type="radio" value='round'/>
+                    <input name="type" id="round" type="radio" value='round' />
                     <labeL htmlFor="round">Round</labeL>
                 </div>
 
@@ -33,7 +71,7 @@ export function CreatePost() {
                     transportTypes.map((tag, index) => (
                         <>
                             <div key={index} className='toggle'>
-                                <input id={tag} type='checkbox' name="tags" value={tag} />
+                                <input id={tag} type='checkbox' name="tags" value={tag} onClick={() => handleTagClick(tag)} />
                                 <label htmlFor={tag}>{tag}</label>
                             </div>
                             {(index + 1) % 3 == 0 && <br />}
