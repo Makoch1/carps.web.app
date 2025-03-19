@@ -3,12 +3,9 @@ import { Save } from '../models/save.js';
 import { User } from '../models/user.js';
 import { getVotes } from '../utils/getVotes.js';
 import { getUserVote } from '../utils/getUserVote.js';
-feat/specific-post
 import { getProfilePictureUrl } from '../utils/getProfilePictureUrl.js';
-=======
 
 const PAGE_SIZE = 15;
-master
 
 // Get all posts
 const getAllPosts = async (req, res, next) => {
@@ -126,7 +123,7 @@ const getPost = async (req, res, next) => {
 };
 
 const savePost = async (req, res, next) => {
-    const userID = '67cdbd2ec6a761b7da2dda26'; // TODO: once auth is done change this
+    const userID = req.body.auth;
     const postID = req.body.postID;
 
     if (!userID || !postID) {
@@ -155,9 +152,11 @@ const savePost = async (req, res, next) => {
 // Delete a post by ID
 const deletePost = async (req, res, next) => {
     try {
+        const userID = req.body.auth;
         const postID = req.params.id;
 
-        const deletedPost = await Post.findByIdAndDelete(postID).exec();
+        // TODO: once admin is done, change this
+        const deletedPost = await Post.findOneAndDelete({ _id: postID, user: userID });// ensure the author is the one deleting it
 
         if (!deletedPost) {
             return res.status(404).json({ message: "Post not found" });
