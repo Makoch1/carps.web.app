@@ -1,7 +1,8 @@
-//stand in admin how to auth haha
-import { Admin } from '../models/admin.js';
 import { Comment } from '../models/comment.js';
 import { User } from '../models/user.js';
+import { getVotes } from '../utils/getVotes.js';
+import { getUserVote } from '../utils/getUserVote.js';
+import { getProfilePictureUrl } from '../utils/getProfilePictureUrl.js';
 
 
 //show comments corresponding post
@@ -17,9 +18,16 @@ const getComment = async (req, res, next) => {
 
     // get comments under post
     const comments = await Comment
-        .find({ user: postID })
+        .find({ parentPost: postID })
         .sort({ timestamp: 'desc' })
         .exec();
+
+    // comment votes
+    comments.upvotes = await getVotes('comment', commentID);
+    comments.userVote = await getUserVote('comment', userID, commentID);
+
+    // clickable profile
+    comments.user.picture = getProfilePictureUrl(comments.user.picture);
 
     // return all comments under post
     return res.status(200).json(comments);
@@ -38,9 +46,8 @@ const createComment = async (req, res, next) => {
 
     const newComment = new Comment({
         user: user.username,
-        parent: post,
+        parentPost: post,
         comment: req.body.comment,
-        //no need for timestamp update?
     });
 
     newComment.save()
@@ -55,6 +62,7 @@ const createReply = async (req, res, next) => {
 
     const post = req.params.postID;
     const user = req.params.userID;
+    const comment = req.params.commentID;
 
     if (!req.body.comment) {
         return res.status(400).json({ message: "Missing comment content" });
@@ -62,9 +70,9 @@ const createReply = async (req, res, next) => {
 
     const newComment = new Comment({
         user: user.username,
-        parent: post,
+        parentPost: post,
+        parentComment: comment,
         comment: req.body.comment,
-        //no need for timestamp update?
     });
 
     newComment.save()
