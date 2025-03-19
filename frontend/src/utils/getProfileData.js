@@ -1,38 +1,11 @@
-import { getPosts } from './getPosts.js'
+import axios from 'axios'
+import { BACKEND_BASE_URL } from './constants.js'
 
-const mockProfileData = [
-    {
-        profilePicture: 'https://w7.pngwing.com/pngs/1000/665/png-transparent-computer-icons-profile-s-free-angle-sphere-profile-cliparts-free-thumbnail.png',
-        description: 'Kamusta! Bago palang ako sa pag-commute, so please help me out!',
-        posts: getPosts().slice(0, 2),
-        savedPosts: getPosts().slice(2, 5),
-    },
-    {
-        profilePicture: 'https://w7.pngwing.com/pngs/1000/665/png-transparent-computer-icons-profile-s-free-angle-sphere-profile-cliparts-free-thumbnail.png',
-        description: 'Studying in DLSU Laguna since Birth ;)',
-        posts: getPosts().slice(0, 2),
-        savedPosts: getPosts().slice(2, 5),
-    },
-    {
-        profilePicture: 'https://w7.pngwing.com/pngs/1000/665/png-transparent-computer-icons-profile-s-free-angle-sphere-profile-cliparts-free-thumbnail.png',
-        description: '[-_-]',
-        posts: getPosts().slice(0, 2),
-        savedPosts: getPosts().slice(2, 5),
-    },
-    {
-        profilePicture: 'https://w7.pngwing.com/pngs/1000/665/png-transparent-computer-icons-profile-s-free-angle-sphere-profile-cliparts-free-thumbnail.png',
-        description: '',
-        posts: getPosts().slice(0, 2),
-        savedPosts: getPosts().slice(2, 5),
-    },
-    {
-        profilePicture: 'https://w7.pngwing.com/pngs/1000/665/png-transparent-computer-icons-profile-s-free-angle-sphere-profile-cliparts-free-thumbnail.png',
-        description: 'Hello po! Ako ay isang foreigner currently living in Manila.',
-        posts: getPosts().slice(0, 2),
-        savedPosts: getPosts().slice(2, 5),
-    }
-]
+export async function getProfileData(userId) {
+    const res = await axios.get(`${BACKEND_BASE_URL}/users/${userId}`);
 
-export function getProfileData(userId) {
-    return mockProfileData[userId - 1]
+    res.data.profilePicture = 'https://w7.pngwing.com/pngs/1000/665/png-transparent-computer-icons-profile-s-free-angle-sphere-profile-cliparts-free-thumbnail.png'
+    res.data.userId = userId;
+
+    return await res.data;
 }
