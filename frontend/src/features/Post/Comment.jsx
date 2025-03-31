@@ -3,15 +3,21 @@ import { UserIcon } from '../../components/UserIcon.jsx'
 import { useUpvote } from '../../hooks/useUpvote.js'
 import axios from 'axios';
 import { BACKEND_BASE_URL } from '../../utils/constants.js';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { CurrentUserContext } from '../../routes/__root.jsx';
 
 export function Comment({ commentDetails }) {
+    const {
+        currentUser,
+        setCurrentUser
+    } = useContext(CurrentUserContext);
+
     const [
         upvote,
         upvoteColor,
         handleUpvote,
         handleDownvote
-    ] = useUpvote('', commentDetails._id, 'comment', commentDetails.userVote);
+    ] = useUpvote(commentDetails._id, 'comment', commentDetails.userVote);
 
     const [edit, setEdit] = useState(commentDetails.comment);
     const [editMode, setEditMode] = useState(false);
@@ -81,18 +87,23 @@ export function Comment({ commentDetails }) {
                                 <i className='bi bi-chevron-down'></i>
                             </button>
                         </div>
-                        <button
-                            className='btn btn-secondary bg-transparent btn-sm rounded-pill'
-                            onClick={() => setEditMode(!editMode)}>
-                            <i className="bi bi-pencil-square me-2"></i>
-                            Edit
-                        </button>
-                        <button
-                            className='btn btn-secondary bg-transparent btn-sm rounded-pill text-danger'
-                            onClick={handleDelete}>
-                            <i className="bi bi-trash me-2"></i>
-                            Delete
-                        </button>
+                        {
+                            currentUser && (currentUser._id === commentDetails.user._id || currentUser.isAdmin) &&
+                            <>
+                                <button
+                                    className='btn btn-secondary bg-transparent btn-sm rounded-pill'
+                                    onClick={() => setEditMode(!editMode)}>
+                                    <i className="bi bi-pencil-square me-2"></i>
+                                    Edit
+                                </button>
+                                <button
+                                    className='btn btn-secondary bg-transparent btn-sm rounded-pill text-danger'
+                                    onClick={handleDelete}>
+                                    <i className="bi bi-trash me-2"></i>
+                                    Delete
+                                </button>
+                            </>
+                        }
                     </div>
                 </div>
             </div>

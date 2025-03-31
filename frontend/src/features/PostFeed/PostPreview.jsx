@@ -7,8 +7,7 @@ export function PostPreview({ postDetails }) {
         upvoteColor,
         handleUpvote,
         handleDownvote
-    ] = useUpvote(postDetails.user._id, postDetails._id, 'post', postDetails.userVote);
-    // TODO: user should be current user + redirect when not logged in
+    ] = useUpvote(postDetails._id, 'post', postDetails.userVote);
 
     // gets only the first two tags
     const tags = postDetails.tags
