@@ -21,7 +21,9 @@ const checkRefreshToken = (req, res, next) => {
     const refreshToken = req.cookies.refreshToken;
 
     if (!refreshToken) {
+
         res.sendStatus(401);
+
     }
 
     else {
@@ -40,7 +42,9 @@ const checkRefreshToken = (req, res, next) => {
             })
 
             .catch((error) => {
+
                 res.sendStatus(500);
+
             });
 
     }
@@ -62,11 +66,15 @@ const reloadAccessToken = (req, res, next) => {
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, data) => {
 
             if (error) {
+
                 res.sendStatus(403);
+
             }
             else {
+
                 accessToken = generateAccessToken({ auth: data.auth });
                 res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
+
             }
 
         });
@@ -75,16 +83,23 @@ const reloadAccessToken = (req, res, next) => {
 
     jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (error, data) => {
 
-        if (error)
+        if (error) {
+
             res.sendStatus(403);
+
+        }
+            
         else {
+
             req.body.auth = data.auth;
             next();
+
         }
 
     });
 
 }
+
 
 // MIDDLEWARE:
 // * Checks for authorization if applicable
@@ -102,11 +117,16 @@ const checkAuthorization = (req, res, next) => {
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, data) => {
 
                 if (error) {
+
                     res.sendStatus(403);
+
                 }
+
                 else {
+
                     accessToken = generateAccessToken({ auth: data.auth });
                     res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
+
                 }
 
             });
@@ -115,16 +135,23 @@ const checkAuthorization = (req, res, next) => {
 
         jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (error, data) => {
 
-            if (error)
+            if (error) {
+
                 res.sendStatus(403);
+
+            }
+
             else {
+
                 req.body.auth = data.auth;
                 next();
+
             }
 
         });
 
     }
+
     else {
 
         next();
@@ -153,10 +180,23 @@ const login = async (req, res) => {
 
                 res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
                 res.cookie('refreshToken', refreshToken.token, { maxAge: 1000 * 60 * 60 * 8, httpOnly: true, secure: true, sameSite: 'Strict' });
-                res.sendStatus(200);
 
-            } else {
+                const context = {
+                    uid: user._id.toString(),
+                    username: user.username,
+                    isAdmin: user.isAdmin,
+                    picture: user.picture
+                };
+
+                res.status(200);
+                res.json(context);
+
+            }
+            
+            else {
+
                 res.sendStatus(400);
+
             }
 
         })
