@@ -1,14 +1,23 @@
 import { Link } from "@tanstack/react-router"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { CurrentUserContext } from "../../routes/__root";
 
-export function Navbar({ userIcon, userId }) {
+export function Navbar() {
+    const {
+        currentUser,
+        _ // don't need the setCurrentUser
+    } = useContext(CurrentUserContext);
+
     const [startInput, setStartInput] = useState('');
     const [endInput, setEndInput] = useState('');
     const navigate = useNavigate();
 
-    /* if no icon is provided, defaults to generic icon */
-    const iconElement = userIcon ? <img src={userIcon} /> : <i className="bi bi-person-circle"></i>
+    // if no user logged in or if no icon is provided, defaults to generic icon
+    // makes use of short circuit eval to prevent checking currentUser.picture when currentUser == null
+    const iconElement = currentUser && currentUser.picture ?
+        <img src={currentUser.picture} /> :
+        <i className="bi bi-person-circle"></i>
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -52,25 +61,36 @@ export function Navbar({ userIcon, userId }) {
                     <input type="submit" hidden /> {/* Allows user to submit using enter key */}
                 </form>
                 <div className="d-flex align-items-center gap-2">
-                    <Link
-                        className="btn btn-secondary btn-sm fw-bold"
-                        to='/post/create'>
-                        <i class="me-2 bi bi-file-earmark-plus"></i>
-                        Create Post
-                    </Link>
-                    <Link
-                        className="nav-link d-flex gap-2 text-white fs-4 fw-bold"
-                        disabled={!userId}
-                        to={`/profile/${userId}`} >
-                        {iconElement}
-                        <span className="mb-1">{userId ? userId : 'Guest'}</span>
-                    </Link>
                     {
-                        // only add this, when user is logged out
-                        !userId &&
-                        <Link className="btn btn-secondary btn-sm fw-bold" to="/login">
-                            Sign in
-                        </Link>
+                        currentUser ? // only add this when user is logged in
+                            <>
+                                <Link
+                                    className="btn btn-secondary btn-sm fw-bold"
+                                    to='/post/create'>
+                                    <i class="me-2 bi bi-file-earmark-plus"></i>
+                                    Create Post
+                                </Link>
+                                <Link
+                                    className="nav-link d-flex gap-2 text-white fs-4 fw-bold"
+                                    disabled={!currentUser}
+                                    to={`/profile/${currentUser._id}`} >
+                                    {iconElement}
+                                    <span className="mb-1">{currentUser.username}</span>
+                                </Link>
+                            </>
+                            :// only add this, when user is logged out
+                            <>
+                                <Link
+                                    className="nav-link d-flex gap-2 text-white fs-4 fw-bold"
+                                    disabled={true}
+                                    to=''>
+                                    {iconElement}
+                                    <span className="mb-1">Guest</span>
+                                </Link>
+                                <Link className="btn btn-secondary btn-sm fw-bold" to="/login">
+                                    Sign in
+                                </Link>
+                            </>
                     }
                 </div>
             </div>
