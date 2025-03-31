@@ -125,24 +125,33 @@ export function Post({ postDetails }) {
                     <i className='bi bi-chat-left small'></i>
                     <span className='fw-bold'>{postDetails.comments.length}</span>
                 </div>
-                <button
-                    className={`btn btn-${saved ? 'primary' : 'secondary'} rounded-pill fw-bold`}
-                    onClick={handleSave}>
-                    <i className="bi bi-download me-2"></i>
-                    Save
-                </button>
-                <Link
-                    className='btn btn-secondary rounded-pill fw-bold'
-                    onClick={() => window.alert('Edit comment')}>
-                    <i className="bi bi-pencil-square me-2"></i>
-                    Edit
-                </Link>
-                <button
-                    className='btn btn-secondary rounded-pill text-danger fw-bold'
-                    onClick={handleDelete}>
-                    <i className="bi bi-trash me-2"></i>
-                    Delete
-                </button>
+                {
+                    currentUser && // only display this when user is logged in
+                    <button
+                        className={`btn btn-${saved ? 'primary' : 'secondary'} rounded-pill fw-bold`}
+                        onClick={handleSave}>
+                        <i className="bi bi-download me-2"></i>
+                        Save
+                    </button>
+                }
+                {
+                    // only display these when user is the owner of the post OR user is an admin
+                    currentUser && (currentUser._id === postDetails.user._id || currentUser.isAdmin) &&
+                    <>
+                        <Link
+                            className='btn btn-secondary rounded-pill fw-bold'
+                            onClick={() => window.alert('Edit comment')}>
+                            <i className="bi bi-pencil-square me-2"></i>
+                            Edit
+                        </Link>
+                        <button
+                            className='btn btn-secondary rounded-pill text-danger fw-bold'
+                            onClick={handleDelete}>
+                            <i className="bi bi-trash me-2"></i>
+                            Delete
+                        </button>
+                    </>
+                }
             </div>
             {/* Comments Section */}
             <form className='my-3 border border-primary rounded'>
