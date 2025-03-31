@@ -88,7 +88,7 @@ export function Comment({ commentDetails }) {
                             </button>
                         </div>
                         {
-                            currentUser && (currentUser._id === commentDetails.user._id || currentUser.isAdmin) &&
+                            currentUser && (currentUser.uid === commentDetails.user._id || currentUser.isAdmin) &&
                             <>
                                 <button
                                     className='btn btn-secondary bg-transparent btn-sm rounded-pill'

@@ -136,7 +136,7 @@ export function Post({ postDetails }) {
                 }
                 {
                     // only display these when user is the owner of the post OR user is an admin
-                    currentUser && (currentUser._id === postDetails.user._id || currentUser.isAdmin) &&
+                    currentUser && (currentUser.uid === postDetails.user._id || currentUser.isAdmin) &&
                     <>
                         <Link
                             className='btn btn-secondary rounded-pill fw-bold'
