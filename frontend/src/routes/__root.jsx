@@ -9,7 +9,7 @@ export const Route = createRootRoute({
 export const CurrentUserContext = createContext(null);
 
 function RootComponent() {
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState();
 
     return (
         <CurrentUserContext.Provider

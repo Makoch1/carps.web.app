@@ -2,11 +2,13 @@ import { Link } from "@tanstack/react-router"
 import { useContext, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { CurrentUserContext } from "../../routes/__root";
+import axios from "axios";
+import { BACKEND_BASE_URL } from '../../utils/constants.js';
 
 export function Navbar() {
     const {
         currentUser,
-        _ // don't need the setCurrentUser
+        setCurrentUser // don't need the setCurrentUser
     } = useContext(CurrentUserContext);
 
     const [startInput, setStartInput] = useState('');
@@ -37,6 +39,18 @@ export function Navbar() {
                 filters: [],
             },
         })
+    }
+
+    function handleLogout() {
+        if (currentUser) { // this is redundant ofc, but never hurts to add a guard
+            axios({
+                method: 'delete',
+                baseURL: BACKEND_BASE_URL,
+                url: '/logout'
+            })
+                .then(_ => setCurrentUser(null))
+                .catch(_ => setCurrentUser(null))
+        }
     }
 
     return (
@@ -70,6 +84,9 @@ export function Navbar() {
                                     <i class="me-2 bi bi-file-earmark-plus"></i>
                                     Create Post
                                 </Link>
+                                <button className="btn btn-secondary btn-sm fw-bold" onClick={handleLogout}>
+                                    Logout
+                                </button>
                                 <Link
                                     className="nav-link d-flex gap-2 text-white fs-4 fw-bold"
                                     disabled={!currentUser}
