@@ -24,7 +24,7 @@ export function useUpvote(contentId, type, initialValue) {
             return navigate({ to: '/login' });
         }
 
-        const userId = currentUser._id;
+        const userId = currentUser.uid;
         const newUpvote = upvote === 1 ? 0 : 1;
 
         upvoteApiRequest(userId, contentId, type, newUpvote)
@@ -40,7 +40,7 @@ export function useUpvote(contentId, type, initialValue) {
             return navigate({ to: '/login' });
         }
 
-        const userId = currentUser._id;
+        const userId = currentUser.uid;
         const newUpvote = upvote === -1 ? 0 : -1;
 
         setUpvote(newUpvote);
