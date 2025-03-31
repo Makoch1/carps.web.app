@@ -11,7 +11,7 @@ export function Comment({ commentDetails }) {
         upvoteColor,
         handleUpvote,
         handleDownvote
-    ] = useUpvote('', commentDetails._id, 'comment', commentDetails.userVote);
+    ] = useUpvote(commentDetails._id, 'comment', commentDetails.userVote);
 
     const [edit, setEdit] = useState(commentDetails.comment);
     const [editMode, setEditMode] = useState(false);

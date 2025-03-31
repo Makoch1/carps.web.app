@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { CurrentUserContext } from '../../routes/__root.jsx';
 import { useUpvote } from '../../hooks/useUpvote.js'
 import { UserIcon } from '../../components/UserIcon.jsx'
 import { Comment } from './Comment.jsx'
@@ -7,14 +8,19 @@ import axios from 'axios';
 import { BACKEND_BASE_URL } from '../../utils/constants.js';
 
 export function Post({ postDetails }) {
+    const {
+        currentUser,
+        setCurrentUser
+    } = useContext(CurrentUserContext)
+
     const [
         upvote,
         upvoteColor,
         handleUpvote,
         handleDownvote
-    ] = useUpvote(postDetails.user._id, postDetails._id, 'post', postDetails.userVote); // TODO: get the user next time once auth is done
+    ] = useUpvote(postDetails._id, 'post', postDetails.userVote);
     const [comment, setComment] = useState('');
-    const [saved, setSaved] = useState(postDetails.isSaved); // TODO: next time, instead of false, check backend if post is saved
+    const [saved, setSaved] = useState(postDetails.isSaved);
     const navigate = useNavigate();
     const { history } = useRouter();
 
