@@ -2,9 +2,15 @@ import { Link, useNavigate } from '@tanstack/react-router'
 import './entry.css'
 import axios from 'axios';
 import { BACKEND_BASE_URL } from '../../utils/constants.js';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { CurrentUserContext } from '../../routes/__root.jsx';
 
 export function Login() {
+    const {
+        currentUser,
+        setCurrentUser
+    } = useContext(CurrentUserContext);
+
     const [error, setError] = useState(false);
     const navigate = useNavigate();
 
@@ -20,7 +26,10 @@ export function Login() {
                 password: e.target.password.value,
             }
         })
-            .then(_ => navigate({ to: '/' }))
+            .then(res => {
+                setCurrentUser(res.data);
+                navigate({ to: '/' });
+            })
             .catch(_ => setError(true))
     }
 
