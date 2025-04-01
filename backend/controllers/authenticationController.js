@@ -34,8 +34,11 @@ const checkRefreshToken = (req, res, next) => {
 
                 if (result) {
                     next();
+
                 }
+
                 else {
+
                     res.sendStatus(403);
                 }
 
@@ -66,15 +69,14 @@ const reloadAccessToken = (req, res, next) => {
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, data) => {
 
             if (error) {
-
                 res.sendStatus(403);
 
             }
+
             else {
 
                 accessToken = generateAccessToken({ auth: data.auth });
                 res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
-
             }
 
         });
@@ -84,16 +86,10 @@ const reloadAccessToken = (req, res, next) => {
     jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (error, data) => {
 
         if (error) {
-
             res.sendStatus(403);
-
-        }
-            
-        else {
-
+        } else {
             req.body.auth = data.auth;
             next();
-
         }
 
     });
@@ -117,16 +113,10 @@ const checkAuthorization = (req, res, next) => {
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, data) => {
 
                 if (error) {
-
                     res.sendStatus(403);
-
-                }
-
-                else {
-
+                } else {
                     accessToken = generateAccessToken({ auth: data.auth });
                     res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
-
                 }
 
             });
@@ -136,16 +126,10 @@ const checkAuthorization = (req, res, next) => {
         jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (error, data) => {
 
             if (error) {
-
                 res.sendStatus(403);
-
-            }
-
-            else {
-
+            } else {
                 req.body.auth = data.auth;
                 next();
-
             }
 
         });
@@ -164,7 +148,6 @@ const checkAuthorization = (req, res, next) => {
 // REQUEST HANDLER:
 // * Authenticates the user
 // * Creates tokens in the cookies and database for authorization
-// + TODO: No proper 'remember me' functionality
 
 const login = async (req, res) => {
 
@@ -174,12 +157,20 @@ const login = async (req, res) => {
 
             if (user && bcrypt.compare(req.body.password, user.password)) {
 
+                let duration;
+            
+                if (req.body.remember) {
+                    duration = 1000 * 60 * 60 * 24 * 30; // 30 days
+                } else { 
+                    duration = 1000 * 60 * 60 * 24; // 1 day
+                }
+
                 const ref = { auth: user._id.toString() };
                 const accessToken = generateAccessToken(ref);
-                const refreshToken = await Token.insertOne({ token: jwt.sign(ref, process.env.REFRESH_TOKEN_SECRET).toString() });
+                const refreshToken = await Token.insertOne({ token: jwt.sign(ref, process.env.REFRESH_TOKEN_SECRET).toString(), expiresAt: new Date(Date.now() + duration) });
 
                 res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
-                res.cookie('refreshToken', refreshToken.token, { maxAge: 1000 * 60 * 60 * 8, httpOnly: true, secure: true, sameSite: 'Strict' });
+                res.cookie('refreshToken', refreshToken.token, { maxAge: duration, httpOnly: true, secure: true, sameSite: 'Strict' });
 
                 const context = {
                     uid: user._id.toString(),
