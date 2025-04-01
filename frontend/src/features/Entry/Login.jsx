@@ -44,7 +44,7 @@ export function Login() {
                 <form onSubmit={handleSubmit}>
                     <input name="username" className="username" type="text" placeholder="Username" required /> <br />
                     <input name="password" className="password" type="password" placeholder="Password" required /> <br />
-                    <input className="remember" id="rememberLogin" type="checkbox" /> <label htmlFor="rememberLogin">Remember me?</label>
+                    <input name='remember' className="remember" id="rememberLogin" type="checkbox" /> <label htmlFor="rememberLogin">Remember me?</label>
                     <br />
                     {
                         error &&
