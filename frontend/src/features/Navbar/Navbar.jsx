@@ -90,7 +90,7 @@ export function Navbar() {
                                 <Link
                                     className="nav-link d-flex gap-2 text-white fs-4 fw-bold"
                                     disabled={!currentUser}
-                                    to={`/profile/${currentUser._id}`} >
+                                    to={`/profile/${currentUser.uid}`} >
                                     {iconElement}
                                     <span className="mb-1">{currentUser.username}</span>
                                 </Link>

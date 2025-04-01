@@ -24,13 +24,20 @@ export function Comment({ commentDetails }) {
     const navigate = useNavigate();
 
     function handleEdit() {
+        console.log(edit)
         axios({
             method: 'put',
             baseURL: BACKEND_BASE_URL,
-            url: `comments/${commentDetails.parentPost}/comment/${commentDetails._id}`
+            url: `comments/${commentDetails.parentPost}/comment/${commentDetails._id}`,
+            data: {
+                comment: edit
+            }
         })
-            .then(_ => location.reload())
+            .then(_ => {
+                location.reload()
+            })
             .catch(err => {
+                console.log(err)
                 if (err.status === 401 || err.status === 403) {
                     navigate({ to: '/login' })
                 }
@@ -65,11 +72,16 @@ export function Comment({ commentDetails }) {
                     {
                         editMode ?
                             (<div>
-                                <input
+                                <textarea
+                                    cols="50"
+                                    rows="3"
                                     value={edit}
-                                    onChange={e => setEdit(e.value)}
-                                    type='text' />
+                                    onChange={e => setEdit(e.target.value)}
+                                    type='text' >
+                                </textarea>
+                                <br />
                                 <button onClick={handleEdit}>Save</button>
+                                <button onClick={() => setEditMode(false)}>Cancel</button>
                             </div>) :
                             <p className="m-0">{commentDetails.comment}</p>
                     }
