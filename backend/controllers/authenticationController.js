@@ -9,7 +9,9 @@ import { Token } from '../models/token.js';
 // * Generates a new access token
 
 const generateAccessToken = (ref) => {
+
     return jwt.sign(ref, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+
 };
 
 
@@ -33,10 +35,15 @@ const checkRefreshToken = (req, res, next) => {
             .then((result) => {
 
                 if (result) {
+
                     next();
+
                 }
+
                 else {
+
                     res.sendStatus(403);
+
                 }
 
             })
@@ -70,6 +77,7 @@ const reloadAccessToken = (req, res, next) => {
                 res.sendStatus(403);
 
             }
+
             else {
 
                 accessToken = generateAccessToken({ auth: data.auth });
@@ -225,4 +233,33 @@ const logout = async (req, res) => {
 };
 
 
-export { checkRefreshToken, reloadAccessToken, checkAuthorization, login, logout };
+// REQUEST HANDLER:
+// * Returns public user information to be stored in context (frontend)
+
+const getContext = (req, res) => {
+
+    User.findOne({ _id: req.body.auth })
+
+        .then(async (user) => {
+
+            const context = {
+                uid: user._id.toString(),
+                username: user.username,
+                isAdmin: user.isAdmin,
+                picture: user.picture
+            };
+
+            res.status(200);
+            res.json(context);
+
+        })
+
+        .catch((error) => {
+
+            res.sendStatus(500);
+
+        });
+
+};
+
+export { checkRefreshToken, reloadAccessToken, checkAuthorization, login, logout, getContext };
