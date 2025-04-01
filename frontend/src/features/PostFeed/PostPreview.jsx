@@ -1,5 +1,6 @@
 import { useUpvote } from '../../hooks/useUpvote.js'
 import { Link } from "@tanstack/react-router";
+import { UserIcon } from '../../components/UserIcon.jsx';
 
 export function PostPreview({ postDetails }) {
     const [
@@ -49,11 +50,7 @@ export function PostPreview({ postDetails }) {
                         {tags}
                     </div>
                     <div className="d-flex">
-                        {
-                            postDetails.user.userIcon ?
-                                <img className="h-75" src={postDetails.user.userIcon} /> :
-                                <i className="bi bi-person-circle fs-1 me-2"></i>
-                        }
+                        <UserIcon userIcon={postDetails.user.picture} />
                         <div className="d-flex flex-column">
                             <span className="fs-5">{postDetails.user.username}</span>
                             <span className="fw-light fst-italic">{date}</span>

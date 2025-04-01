@@ -9,6 +9,10 @@ import { v2 as cloudinary } from 'cloudinary';
 export function getProfilePictureUrl(public_id) {
     cloudinary.config(CLOUDINARY_CONFIG);
 
+    if (public_id === '') {
+        return '';
+    }
+
     const url = cloudinary.url(public_id, {
         fetch_format: 'auto',
         quality: 'auto'

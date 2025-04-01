@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { User } from '../models/user.js';
 import { Token } from '../models/token.js';
+import { getProfilePictureUrl } from '../utils/getProfilePictureUrl.js';
 
 
 // UTILITY:
@@ -96,7 +97,7 @@ const reloadAccessToken = (req, res, next) => {
             res.sendStatus(403);
 
         }
-            
+
         else {
 
             req.body.auth = data.auth;
@@ -193,14 +194,14 @@ const login = async (req, res) => {
                     uid: user._id.toString(),
                     username: user.username,
                     isAdmin: user.isAdmin,
-                    picture: user.picture
+                    picture: getProfilePictureUrl(user.picture)
                 };
 
                 res.status(200);
                 res.json(context);
 
             }
-            
+
             else {
 
                 res.sendStatus(400);
@@ -246,7 +247,7 @@ const getContext = (req, res) => {
                 uid: user._id.toString(),
                 username: user.username,
                 isAdmin: user.isAdmin,
-                picture: user.picture
+                picture: getProfilePictureUrl(user.picture)
             };
 
             res.status(200);
