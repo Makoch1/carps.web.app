@@ -34,11 +34,7 @@ const checkRefreshToken = (req, res, next) => {
 
                 if (result) {
                     next();
-
-                }
-
-                else {
-
+                } else {
                     res.sendStatus(403);
                 }
 
@@ -70,11 +66,7 @@ const reloadAccessToken = (req, res, next) => {
 
             if (error) {
                 res.sendStatus(403);
-
-            }
-
-            else {
-
+            } else {
                 accessToken = generateAccessToken({ auth: data.auth });
                 res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
             }
