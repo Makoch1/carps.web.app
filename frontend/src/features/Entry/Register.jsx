@@ -31,7 +31,7 @@ export function Register() {
                 <form onSubmit={handleSubmit}>
                     <input class="username" name='username' type="text" placeholder="Username" required /> <br />
                     <input class="password" name='password' type="password" placeholder="Password" required /> <br />
-                    <input class="remember" id="rememberRegister" type="checkbox" /> <label htmlFor="rememberRegister">Remember me?</label>
+                    <input class="remember" name='remember' id="rememberRegister" type="checkbox" /> <label htmlFor="rememberRegister">Remember me?</label>
                     <br />
                     {error && <p>Username Already Taken</p>}
                     <input class="submit" type="submit" value="Register" />
