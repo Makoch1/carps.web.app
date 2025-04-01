@@ -70,7 +70,7 @@ const reloadAccessToken = (req, res, next) => {
             if (error) {
                 res.sendStatus(403);
             } else {
-                accessToken = generateAccessToken({ auth: data.auth });
+                accessToken = generateAccessToken({ auth: data.auth, admin: data.admin });
                 res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
             }
 
@@ -84,6 +84,7 @@ const reloadAccessToken = (req, res, next) => {
             res.sendStatus(403);
         } else {
             req.body.auth = data.auth;
+            req.body.admin = data.admin;
             next();
         }
 
@@ -110,7 +111,7 @@ const checkAuthorization = (req, res, next) => {
                 if (error) {
                     res.sendStatus(403);
                 } else {
-                    accessToken = generateAccessToken({ auth: data.auth });
+                    accessToken = generateAccessToken({ auth: data.auth, admin: data.admin });
                     res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
                 }
 
@@ -124,6 +125,7 @@ const checkAuthorization = (req, res, next) => {
                 res.sendStatus(403);
             } else {
                 req.body.auth = data.auth;
+                req.body.admin = data.admin;
                 next();
             }
 
@@ -160,7 +162,7 @@ const login = async (req, res) => {
                     duration = 1000 * 60 * 60 * 24; // 1 day
                 }
 
-                const ref = { auth: user._id.toString() };
+                const ref = { auth: user._id.toString(), admin: user.isAdmin };
                 const accessToken = generateAccessToken(ref);
                 const refreshToken = await Token.insertOne({ token: jwt.sign(ref, process.env.REFRESH_TOKEN_SECRET).toString(), expiresAt: new Date(Date.now() + duration) });
 
