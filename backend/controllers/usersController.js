@@ -27,7 +27,7 @@ const getUser = async (req, res, next) => {
     for (const post of posts) {
         post.user = user;
         post.upvotes = await getVotes('post', post._id);
-        post.userVote = await getUserVote('post', userID, post._id);
+        post.userVote = await getUserVote('post', req.body.auth, post._id);
     }
 
     // get saved posts by user
