@@ -73,16 +73,16 @@ export function Post({ postDetails }) {
 
     return (
         <div className="w-50 mx-auto mt-3">
-            <div className="d-flex gap-3 align-items-end">
+            <div className="d-flex gap-3 align-items-center">
                 <button
                     className='btn btn-primary bg-transparent rounded-circle'
                     onClick={() => history.go(-1)}>
                     <i className='bi bi-arrow-return-left'></i>
                 </button>
-                <div className='d-flex gap-1 align-items-center fs-5 fw-bold fst-italic'>
+                <Link to={`/profile/${postDetails.user._id}`} className='d-flex gap-1 align-items-center fs-5 fw-bold fst-italic'>
                     <UserIcon userIcon={postDetails.user.picture} />
-                    <p className='m-0'>{postDetails.user.username}</p>
-                </div>
+                    <p className='text-white text-decoration-none m-0'>{postDetails.user.username}</p>
+                </Link>
             </div>
             <h1 className='my-3 fs-2 fw-bold'>
                 {postDetails.start}

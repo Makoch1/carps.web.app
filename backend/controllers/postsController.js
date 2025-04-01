@@ -65,6 +65,7 @@ const getAllPosts = async (req, res, next) => {
         await User.populate(posts, { path: "user" });
         for (const post of posts) {
             post.userVote = await getUserVote('post', userID, post._id);
+            post.user.picture = getProfilePictureUrl(post.user.picture);
         }
 
         if (!posts.length) {
@@ -97,7 +98,7 @@ const getAllPosts = async (req, res, next) => {
 
 // Get a single post by ID
 const getPost = async (req, res, next) => {
-    const userID = req.body.auth ? req.body.auth : '';
+    const userID = req.body.auth;
     const postID = req.params.id;
 
     const post = await Post

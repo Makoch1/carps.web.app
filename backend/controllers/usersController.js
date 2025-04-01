@@ -7,8 +7,6 @@ import { getUserVote } from '../utils/getUserVote.js';
 import { getProfilePictureUrl } from '../utils/getProfilePictureUrl.js';
 import { uploadProfilePicture } from '../utils/uploadProfilePicture.js';
 
-
-// TODO: once upvotes vote system is done, when getting posts make sure to get the upvotes
 const getUser = async (req, res, next) => {
     const userID = req.params.id;
 
@@ -26,11 +24,11 @@ const getUser = async (req, res, next) => {
         .exec()
 
     // attach this user to the posts and calculate upvotes
-    posts.forEach(async (post) => {
+    for (const post of posts) {
         post.user = user;
         post.upvotes = await getVotes('post', post._id);
-        post.userVote = await getUserVote('post', userID, post._id);
-    });
+        post.userVote = await getUserVote('post', req.body.auth, post._id);
+    }
 
     // get saved posts by user
     const saves = await Save.find({ user: userID }).exec();

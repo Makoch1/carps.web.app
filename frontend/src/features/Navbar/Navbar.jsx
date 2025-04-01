@@ -4,6 +4,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { CurrentUserContext } from "../../routes/__root";
 import axios from "axios";
 import { BACKEND_BASE_URL } from '../../utils/constants.js';
+import { UserIcon } from "../../components/UserIcon";
 
 export function Navbar() {
     const {
@@ -17,9 +18,7 @@ export function Navbar() {
 
     // if no user logged in or if no icon is provided, defaults to generic icon
     // makes use of short circuit eval to prevent checking currentUser.picture when currentUser == null
-    const iconElement = currentUser && currentUser.picture ?
-        <img src={currentUser.picture} /> :
-        <i className="bi bi-person-circle"></i>
+    const iconElement = currentUser && <UserIcon userIcon={currentUser.picture} />
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -88,7 +87,7 @@ export function Navbar() {
                                     Logout
                                 </button>
                                 <Link
-                                    className="nav-link d-flex gap-2 text-white fs-4 fw-bold"
+                                    className="nav-link d-flex align-items-center gap-1 text-white fs-4 fw-bold"
                                     disabled={!currentUser}
                                     to={`/profile/${currentUser.uid}`} >
                                     {iconElement}
@@ -98,11 +97,11 @@ export function Navbar() {
                             :// only add this, when user is logged out
                             <>
                                 <Link
-                                    className="nav-link d-flex gap-2 text-white fs-4 fw-bold"
+                                    className="nav-link d-flex align-items-center text-white fs-4 fw-bold"
                                     disabled={true}
                                     to=''>
                                     {iconElement}
-                                    <span className="mb-1">Guest</span>
+                                    <span>Guest</span>
                                 </Link>
                                 <Link className="btn btn-secondary btn-sm fw-bold" to="/login">
                                     Sign in

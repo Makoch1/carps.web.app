@@ -63,10 +63,14 @@ export function Comment({ commentDetails }) {
     return (
         <div>
             <div className="d-flex gap-3 my-3">
-                <UserIcon userIcon={commentDetails.user.picture} />
+                <Link to={`/profile/${commentDetails.user._id}`}>
+                    <UserIcon userIcon={commentDetails.user.picture} />
+                </Link>
                 <div>
                     <div className="d-flex gap-2 align-items-center">
-                        <p className="fw-bold m-0">{commentDetails.user.username}</p>
+                        <Link to={`/profile/${commentDetails.user._id}`}>
+                            <p className="fw-bold m-0 text-white">{commentDetails.user.username}</p>
+                        </Link>
                         <p className="text-muted m-0 small">{commentDetails.timestamp}</p>
                     </div>
                     {
