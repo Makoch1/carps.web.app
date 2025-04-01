@@ -140,7 +140,7 @@ export function Post({ postDetails }) {
                     <>
                         <Link
                             className='btn btn-secondary rounded-pill fw-bold'
-                            onClick={() => window.alert('Edit comment')}>
+                            to={`/edit/${postDetails._id}`}>
                             <i className="bi bi-pencil-square me-2"></i>
                             Edit
                         </Link>

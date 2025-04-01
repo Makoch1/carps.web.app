@@ -1,4 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { getPostDetails } from '../../utils/getPostDetails.js';
+import { EditPost } from '../../features/Edit/EditPost.jsx';
 
 export const Route = createFileRoute('/edit/$postId')({
     loader: ({ params: { postId } }) => {
@@ -7,7 +9,7 @@ export const Route = createFileRoute('/edit/$postId')({
     component: RouteComponent,
 })
 
-// TODO: once edit component is done, insert here
 function RouteComponent() {
-    return <div>Hello "/edit/$postId"!</div>
+    const postDetails = Route.useLoaderData();
+    return <EditPost currentDetails={postDetails} />
 }
