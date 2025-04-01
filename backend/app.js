@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import { postsRouter } from './routers/postsRouter.js';
 import { usersRouter } from './routers/usersRouter.js';
 import { votesRouter } from './routers/votesRouter.js';
@@ -9,6 +10,9 @@ import { authenticationRouter } from './routers/authenticationRoute.js';
 
 const PORT = 3000;
 const app = express();
+
+app.use(bodyParser.json({ limit: '20mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '20mb' }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

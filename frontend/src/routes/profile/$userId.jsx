@@ -1,8 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { getProfileData } from '../../utils/getProfileData'
 import { PostFeed } from '../../features/PostFeed/PostFeed.jsx'
-import { useState } from 'react'
 import { CurProfile } from '../../features/Edit/CurProfile.jsx'
+import { useContext, useState } from 'react'
+import { CurrentUserContext } from '../__root'
 
 export const Route = createFileRoute('/profile/$userId')({
     loader: ({ params: { userId } }) => {
@@ -12,6 +13,11 @@ export const Route = createFileRoute('/profile/$userId')({
 })
 
 function RouteComponent() {
+    const {
+        currentUser,
+        setCurrentUser
+    } = useContext(CurrentUserContext);
+
     const profileData = Route.useLoaderData();
 
     /* This is where you define the possible "tabs" and the components related to them
@@ -20,7 +26,7 @@ function RouteComponent() {
     const Tabs = Object.freeze({
         posts: <PostFeed posts={profileData.posts} />,
         saved: <PostFeed posts={profileData.savedPosts} />,
-        edit: <CurProfile userId={profileData.userId} profilePicture={profileData.profilePicture} description={profileData.description} />
+        edit: <CurProfile userId={profileData.userId} profilePicture={profileData.picture} description={profileData.description} />
     });
 
     const [currentTab, setCurrentTab] = useState('posts') // posts are displayed by default
@@ -34,16 +40,21 @@ function RouteComponent() {
                         onClick={() => setCurrentTab('posts')}>
                         My CARPS
                     </button>
-                    <button
-                        className={`btn btn-primary ${currentTab === 'saved' ? '' : 'bg-transparent'} my-2 border-0 text-start`}
-                        onClick={() => setCurrentTab('saved')}>
-                        Saved CARPS
-                    </button>
-                    <button
-                        className={`btn btn-primary ${currentTab === 'edit' ? '' : 'bg-transparent'} my-2 border-0 text-start`}
-                        onClick={() => setCurrentTab('edit')}>
-                        Edit Profile
-                    </button>
+                    {
+                        currentUser && currentUser.uid === profileData.userId &&
+                        <>
+                            <button
+                                className={`btn btn-primary ${currentTab === 'saved' ? '' : 'bg-transparent'} my-2 border-0 text-start`}
+                                onClick={() => setCurrentTab('saved')}>
+                                Saved CARPS
+                            </button>
+                            <button
+                                className={`btn btn-primary ${currentTab === 'edit' ? '' : 'bg-transparent'} my-2 border-0 text-start`}
+                                onClick={() => setCurrentTab('edit')}>
+                                Edit Profile
+                            </button>
+                        </>
+                    }
                 </div>
             </div>
             <div className='w-75'>

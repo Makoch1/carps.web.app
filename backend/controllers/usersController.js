@@ -55,6 +55,7 @@ const getUser = async (req, res, next) => {
         username: user.username,
         description: user.description,
         picture: getProfilePictureUrl(user.picture),
+        raw: user.picture,
         posts: posts,
         savedPosts: savedPosts,
     });
