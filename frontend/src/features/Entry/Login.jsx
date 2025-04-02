@@ -24,7 +24,7 @@ export function Login() {
             data: {
                 username: e.target.username.value,
                 password: e.target.password.value,
-                remember: e.target.remember.value
+                remember: e.target.remember.checked
             }
         })
             .then(res => {
