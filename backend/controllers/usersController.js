@@ -28,6 +28,7 @@ const getUser = async (req, res, next) => {
         post.user = user;
         post.upvotes = await getVotes('post', post._id);
         post.userVote = await getUserVote('post', req.body.auth, post._id);
+        post.user.picture = getProfilePictureUrl(post.user.picture);
     }
 
     // get saved posts by user
@@ -47,6 +48,7 @@ const getUser = async (req, res, next) => {
         post.user = await User.findById(post.user).exec();
         post.upvotes = await getVotes('post', post._id);
         post.userVote = await getUserVote('post', userID, post._id);
+        post.user.picture = getProfilePictureUrl(post.user.picture);
     }
 
     return res.status(200).json({
