@@ -24,6 +24,7 @@ export const Route = createFileRoute('/')({
     loader: ({ deps: { start, end, page, sort, filters } }) => getPosts(start, end, page, sort, filters),
     component: () => {
         const posts = Route.useLoaderData();
+        const { page, ..._ } = Route.useSearch();
 
         return (
             <div className="d-flex">
@@ -31,7 +32,7 @@ export const Route = createFileRoute('/')({
                     <FilterSidebar />
                 </div>
                 <div className="w-75">
-                    <PostFeed posts={posts} />
+                    <PostFeed posts={posts} page={page} />
                 </div>
             </div>
         )
