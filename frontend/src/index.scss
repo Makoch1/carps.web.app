@@ -4,6 +4,7 @@
 $primary: #564f3d;
 $secondary: #1c1d19;
 $body-color: white;
+$info: #c4a377;
 /* text color */
 
 #root {
@@ -27,6 +28,10 @@ $body-color: white;
 
 .accent {
   background: #41423e;
+}
+
+.btn-outline-info:hover {
+  color: white !important;
 }
 
 img {

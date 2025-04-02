@@ -133,7 +133,7 @@ export function Post({ postDetails }) {
                     <button
                         className={`btn btn-${saved ? 'primary' : 'secondary'} rounded-pill fw-bold`}
                         onClick={handleSave}>
-                        <i className="bi bi-download me-2"></i>
+                        <i className="bi bi-bookmark-plus-fill"></i>
                         Save
                     </button>
                 }
