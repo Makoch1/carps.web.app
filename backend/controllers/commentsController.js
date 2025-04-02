@@ -25,6 +25,11 @@ const getComment = async (req, res, next) => {
         .lean()
         .exec();
 
+    for (const comment of comments) {
+        comment.upvotes = await getVotes('comment', comment._id);
+        comment.userVote = await getUserVote('comment', req.body.auth, comment._id);
+    }
+
     // function to nest comments
     const nestComments = (comments) => {
         const commentMap = {}; // map to store comments by ID
