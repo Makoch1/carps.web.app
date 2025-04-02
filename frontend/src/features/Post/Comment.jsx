@@ -81,6 +81,15 @@ export function Comment({ commentDetails }) {
             })
     }
 
+    const date = (new Date(commentDetails.timestamp))
+        .toLocaleString("en-GB", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric"
+        });
+
     const upvotes = commentDetails.upvotes - commentDetails.userVote;
 
     return (
@@ -94,7 +103,7 @@ export function Comment({ commentDetails }) {
                         <Link to={`/profile/${commentDetails.user._id}`}>
                             <p className="fw-bold m-0 text-white">{commentDetails.user.username}</p>
                         </Link>
-                        <p className="text-muted m-0 small">{commentDetails.timestamp}</p>
+                        <p className="text-muted m-0 small">{date}</p>
                     </div>
                     {
                         editMode ?
