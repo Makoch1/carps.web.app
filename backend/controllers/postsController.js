@@ -90,6 +90,7 @@ const getAllPosts = async (req, res, next) => {
         for (const post of posts) {
             post.upvotes = await getVotes('post', post._id);
             post.userVote = await getUserVote('post', userID, post._id);
+            post.user.picture = getProfilePictureUrl(post.user.picture);
         }
 
         return res.status(200).json(posts);

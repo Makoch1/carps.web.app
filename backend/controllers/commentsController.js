@@ -28,6 +28,7 @@ const getComment = async (req, res, next) => {
     for (const comment of comments) {
         comment.upvotes = await getVotes('comment', comment._id);
         comment.userVote = await getUserVote('comment', req.body.auth, comment._id);
+        comment.user.picture = getProfilePictureUrl(comment.user.picture);
     }
 
     // function to nest comments
