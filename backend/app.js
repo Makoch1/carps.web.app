@@ -8,7 +8,8 @@ import { votesRouter } from './routers/votesRouter.js';
 import { commentsRouter } from './routers/commentsRouter.js';
 import { authenticationRouter } from './routers/authenticationRoute.js';
 
-const PORT = 3000;
+const FRONTEND_ORIGIN = 'http://localhost:5173';
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(bodyParser.json({ limit: '20mb' }));
@@ -17,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '20mb' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: FRONTEND_ORIGIN, credentials: true }));
 app.use(cookieParser());
 
 app.use(authenticationRouter);
