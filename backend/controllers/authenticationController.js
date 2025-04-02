@@ -72,7 +72,7 @@ const reloadAccessToken = (req, res, next) => {
                 res.sendStatus(403);
             } else {
                 accessToken = generateAccessToken({ auth: data.auth, admin: data.admin });
-                res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
+                res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'none' });
             }
 
         });
@@ -113,7 +113,7 @@ const checkAuthorization = (req, res, next) => {
                     res.sendStatus(403);
                 } else {
                     accessToken = generateAccessToken({ auth: data.auth, admin: data.admin });
-                    res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
+                    res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'none' });
                 }
 
             });
@@ -167,8 +167,8 @@ const login = async (req, res) => {
                 const accessToken = generateAccessToken(ref);
                 const refreshToken = await Token.insertOne({ token: jwt.sign(ref, process.env.REFRESH_TOKEN_SECRET).toString(), expiresAt: new Date(Date.now() + duration) });
 
-                res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'Strict' });
-                res.cookie('refreshToken', refreshToken.token, { maxAge: duration, httpOnly: true, secure: true, sameSite: 'Strict' });
+                res.cookie('accessToken', accessToken, { maxAge: 1000 * 60 * 30, httpOnly: true, secure: true, sameSite: 'none' });
+                res.cookie('refreshToken', refreshToken.token, { maxAge: duration, httpOnly: true, secure: true, sameSite: 'none' });
 
                 const context = {
                     uid: user._id.toString(),
