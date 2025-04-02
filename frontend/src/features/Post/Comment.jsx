@@ -19,6 +19,9 @@ export function Comment({ commentDetails }) {
         handleDownvote
     ] = useUpvote(commentDetails._id, 'comment', commentDetails.userVote);
 
+    const [reply, setReply] = useState('');
+    const [replyMode, setReplyMode] = useState(false);
+
     const [edit, setEdit] = useState(commentDetails.comment);
     const [editMode, setEditMode] = useState(false);
     const navigate = useNavigate();
@@ -55,6 +58,26 @@ export function Comment({ commentDetails }) {
                 if (err.status === 401 || err.status === 403) {
                     navigate({ to: '/login' })
                 }
+            })
+    }
+
+    function handleReply() {
+        axios({
+            method: 'post',
+            baseURL: BACKEND_BASE_URL,
+            url: `comments/${commentDetails.parentPost}/comment/${commentDetails._id}`,
+            data: {
+                comment: reply
+            }
+        })
+            .then(_ => location.reload())
+            .catch(err => {
+                if (err.status === 401 || err.status === 403) {
+                    navigate({ to: '/login' })
+                }
+
+                setReply('');
+                setReplyMode(false)
             })
     }
 
@@ -104,26 +127,68 @@ export function Comment({ commentDetails }) {
                             </button>
                         </div>
                         {
+                            currentUser &&
+                            <button
+                                className='btn btn-secondary bg-transparent btn-sm rounded-pill'
+                                onClick={() => setReplyMode(!replyMode)}>
+                                <i className="bi bi-reply me-2"></i>
+                                Reply
+                            </button>
+                        }
+                        {
+                            currentUser && currentUser.uid === commentDetails.user._id &&
+                            <button
+                                className='btn btn-secondary bg-transparent btn-sm rounded-pill'
+                                onClick={() => setEditMode(!editMode)}>
+                                <i className="bi bi-pencil-square me-2"></i>
+                                Edit
+                            </button>
+                        }
+                        {
                             currentUser && (currentUser.uid === commentDetails.user._id || currentUser.isAdmin) &&
-                            <>
-                                <button
-                                    className='btn btn-secondary bg-transparent btn-sm rounded-pill'
-                                    onClick={() => setEditMode(!editMode)}>
-                                    <i className="bi bi-pencil-square me-2"></i>
-                                    Edit
-                                </button>
-                                <button
-                                    className='btn btn-secondary bg-transparent btn-sm rounded-pill text-danger'
-                                    onClick={handleDelete}>
-                                    <i className="bi bi-trash me-2"></i>
-                                    Delete
-                                </button>
-                            </>
+                            <button
+                                className='btn btn-secondary bg-transparent btn-sm rounded-pill text-danger'
+                                onClick={handleDelete}>
+                                <i className="bi bi-trash me-2"></i>
+                                Delete
+                            </button>
                         }
                     </div>
                 </div>
             </div>
-            <div className='ms-5 border-start border-primary'>
+            {
+                replyMode &&
+                <div className='ms-5 mt-3 border border-primary rounded'>
+                    <textarea
+                        className='form-control bg-transparent border-0 h-25 mb-0 shadow-none'
+                        value={reply}
+                        placeholder='Enter reply here...'
+                        onChange={e => setReply(e.target.value)}>
+                    </textarea>
+                    <div className='d-flex flex-row-reverse'>
+                        <button
+                            className='btn btn-primary btn-sm px-4 py-1 m-2 my-1 rounded-pill'
+                            type='button'
+                            onClick={handleReply}>
+                            Reply
+                        </button>
+                        <button
+                            className='btn btn-secondary btn-xs px-4 py-1 ms-2 my-1 rounded-pill'
+                            type='button'
+                            onClick={() => setReply('')}>
+                            Clear
+                        </button>
+                        <button
+                            className='btn btn-secondary btn-xs px-4 py-1 my-1 rounded-pill'
+                            type='button'
+                            onClick={() => setReplyMode(false)}>
+                            Cancel
+                        </button>
+
+                    </div>
+                </div>
+            }
+            <div className='ms-5 ps-2 border-start border-primary'>
                 {
                     commentDetails.children &&
                     commentDetails.children.map(childComment => <Comment commentDetails={childComment} />)
