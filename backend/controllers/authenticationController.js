@@ -153,7 +153,7 @@ const login = async (req, res) => {
 
         .then(async (user) => {
 
-            if (user && bcrypt.compare(req.body.password, user.password)) {
+            if (user && await bcrypt.compare(req.body.password, user.password)) {
 
                 let duration;
 
