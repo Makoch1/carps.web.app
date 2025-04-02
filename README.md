@@ -5,8 +5,9 @@ Website Link: https://carps-8d540.web.app/
 
 To run locally:
 1. Clone the repository
-2. For the backend: Go to ./backend and run "npm run dev"
-3. For the frontend: Go to ./frontend and run "npm run dev"
+2. Download dependencies using "npm i" or "npm install"
+3. For the backend: Go to ./backend and run "npm run dev"
+4. For the frontend: Go to ./frontend and run "npm run dev"
 
 NOTE: certain features may not work at all due to the lack of .env file
 
