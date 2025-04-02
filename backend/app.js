@@ -8,7 +8,7 @@ import { votesRouter } from './routers/votesRouter.js';
 import { commentsRouter } from './routers/commentsRouter.js';
 import { authenticationRouter } from './routers/authenticationRoute.js';
 
-const FRONTEND_ORIGIN = 'http://localhost:5173';
+const FRONTEND_ORIGIN = 'https://carps-8d540.web.app/';
 const PORT = process.env.PORT || 3000;
 const app = express();
 
