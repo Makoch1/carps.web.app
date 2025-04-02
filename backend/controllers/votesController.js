@@ -80,14 +80,14 @@ const voteComment = async (req, res, next) => {
         } else {
             await CommentVote.updateOne(
                 { user: userID, comment: commentID },
-                { impression: vote }
+                { impression: vote === 1 }
             )
         }
     } else {
         await CommentVote.create({
             user: userID,
             comment: commentID,
-            impression: vote
+            impression: vote === 1
         });
     }
 
