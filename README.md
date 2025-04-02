@@ -26,9 +26,16 @@ Stack Information:
 Frontend packages / frameworks used:
 - Reactjs
 - Vite
+- Firebase
 - Tanstack Router
-- Bootstrap + Bootstrap Icons + SCSS
+- Bootstrap + Bootstrap Icons + SASS
+- Axios
 
 Backend packages / frameworks used:
+- Express
+- Nodemon
 - Mongoose
 - JWT
+- Bcrypt
+- Cookie-parser
+- uuid
