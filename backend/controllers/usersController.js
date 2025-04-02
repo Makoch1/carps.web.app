@@ -111,6 +111,7 @@ const createUser = async (req, res, next) => {
     newUser.save()
         .then(() => res.status(200).send("User created"))
         .catch(err => {
+            console.log(err)
             res.status(400).json({ message: "Cannot create user" })
         })
 }
