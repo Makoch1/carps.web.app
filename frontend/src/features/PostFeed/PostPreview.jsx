@@ -62,7 +62,7 @@ export function PostPreview({ postDetails }) {
                 <span className="badge rounded-pill w-100 text-bg-primary text-start fs-4 fw-bold">
                     <span className='text-uppercase'>{postDetails.start}</span>
                     {
-                        postDetails.oneWay ?
+                        postDetails.isOneWay ?
                             <i class="mx-2 bi bi-arrow-right"></i> :
                             <i class="mx-2 bi bi-arrow-left-right"></i>
                     }
