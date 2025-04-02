@@ -132,27 +132,27 @@ const updateComment = async (req, res, next) => {
 }
 
 const deleteComment = async (req, res, next) => {
-
     const userID = req.body.auth;
     const commentID = req.params.commentID;
     const postID = req.params.postID;
 
     //find comment and post!
-    const comment = await Comment.findOne({ _id: commentID, user: userID }).exec();
+    const comment = await Comment.findById(commentID).exec();
     const post = await Post.findById(postID).exec();
 
     if (!comment || !post) {
         return res.status(404).json({ message: "Post / Comment not found" })
     }
 
-    await Comment
-        .findOneAndDelete(
-            { _id: commentID }
-        )
-        .exec();
+    const deletedComment = req.body.admin ?
+        await Comment.findByIdAndDelete(commentID).exec() : // since admin is deleting, no need for check of ownership
+        await Comment.findOneAndDelete({ _id: commentID, user: userID }).exec() // check if they own it
+
+    if (!deletedComment) {
+        return res.status(401);
+    }
 
     return res.status(200).send("Comment deleted");
-
 }
 
 export { getComment, createComment, createReply, updateComment, deleteComment };
