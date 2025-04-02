@@ -5,7 +5,7 @@ import { getVotes } from '../utils/getVotes.js';
 import { getUserVote } from '../utils/getUserVote.js';
 import { getProfilePictureUrl } from '../utils/getProfilePictureUrl.js';
 
-//show comments corresponding post
+// show comments corresponding post
 const getComment = async (req, res, next) => {
     const userID = req.body.auth ? req.body.auth : '';
     // to show all comments to a corresponding post
@@ -19,35 +19,46 @@ const getComment = async (req, res, next) => {
 
     // get comments under post
     const comments = await Comment
-        .find({ parentPost: postID, parentComment: null })
+        .find({ parentPost: postID })
         .populate('user')
-        .sort({ timestamp: 'desc' })
+        .sort({ timestamp: 'asc' }) // Sort by ascending timestamp for proper nesting
         .lean()
         .exec();
 
-    for (const comment of comments) {
-        const commentID = comment._id;
+    // function to nest comments
+    const nestComments = (comments) => {
+        const commentMap = {}; // map to store comments by ID
 
-        // get the comments nested within TODO: this isnt techincally correct yet
-        comment.children = await Comment
-            .find({ parentComment: commentID })
-            .populate('user')
-            .lean()
-            .exec();
+        // initialize commentMap with each comment, adding children as an empty array
+        for (const comment of comments) {
+            commentMap[comment._id] = { ...comment, children: [] };
+        }
 
-        // comment votes
-        comment.upvotes = await getVotes('comment', commentID);
-        comment.userVote = await getUserVote('comment', userID, commentID);
+        const nestedComments = [];
 
-        // clickable profile
-        comment.user.picture = getProfilePictureUrl(comment.user.picture);
-    }
+        for (const comment of comments) {
+            if (comment.parentComment) {
+                // push the current comment into its parent's children array
+                if (commentMap[comment.parentComment]) {
+                    commentMap[comment.parentComment].children.push(commentMap[comment._id]);
+                }
+            } else {
+                // add top-level comments (those without parentComment) to the result array
+                nestedComments.push(commentMap[comment._id]);
+            }
+        }
+
+        return nestedComments;
+    };
+
+    // nest the comments
+    const nestedComments = nestComments(comments);
 
     // return all comments under post
-    return res.status(200).json(comments);
+    return res.status(200).json(nestedComments);
 }
 
-//create comment under parent
+// create comment under parent
 const createComment = async (req, res, next) => {
 
     const post = req.params.postID;
@@ -71,7 +82,7 @@ const createComment = async (req, res, next) => {
         })
 }
 
-//create comment under parent
+// create comment under parent
 const createReply = async (req, res, next) => {
 
     const post = req.params.postID;
@@ -97,14 +108,14 @@ const createReply = async (req, res, next) => {
         })
 }
 
-//update corresponding comment
+// update corresponding comment
 const updateComment = async (req, res, next) => {
 
     const userID = req.body.auth;
     const commentID = req.params.commentID;
     const postID = req.params.postID;
 
-    //find comment and post!
+    // find comment and post
     const comment = await Comment.findOne({ _id: commentID, user: userID }).exec();
     const post = await Post.findById(postID).exec();
 
@@ -116,7 +127,7 @@ const updateComment = async (req, res, next) => {
         return res.status(400).json({ message: "Missing comment content" });
     }
 
-    //missing authorization
+    // missing authorization
     const updatedComment = await Comment
         .findOneAndUpdate(
             { _id: commentID },
@@ -136,7 +147,7 @@ const deleteComment = async (req, res, next) => {
     const commentID = req.params.commentID;
     const postID = req.params.postID;
 
-    //find comment and post!
+    // find comment and post
     const comment = await Comment.findById(commentID).exec();
     const post = await Post.findById(postID).exec();
 
