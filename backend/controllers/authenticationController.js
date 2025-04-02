@@ -156,10 +156,10 @@ const login = async (req, res) => {
             if (user && bcrypt.compare(req.body.password, user.password)) {
 
                 let duration;
-            
+
                 if (req.body.remember) {
                     duration = 1000 * 60 * 60 * 24 * 30; // 30 days
-                } else { 
+                } else {
                     duration = 1000 * 60 * 60 * 24; // 1 day
                 }
 

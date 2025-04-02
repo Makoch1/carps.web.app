@@ -104,21 +104,24 @@ export function Comment({ commentDetails }) {
                             </button>
                         </div>
                         {
+                            // only display this when user is the owner
+                            currentUser && currentUser.uid === commentDetails.user._id &&
+                            <button
+                                className='btn btn-secondary bg-transparent btn-sm rounded-pill'
+                                onClick={() => setEditMode(!editMode)}>
+                                <i className="bi bi-pencil-square me-2"></i>
+                                Edit
+                            </button>
+                        }
+                        {
+                            // comment can be deleted by owner OR admin
                             currentUser && (currentUser.uid === commentDetails.user._id || currentUser.isAdmin) &&
-                            <>
-                                <button
-                                    className='btn btn-secondary bg-transparent btn-sm rounded-pill'
-                                    onClick={() => setEditMode(!editMode)}>
-                                    <i className="bi bi-pencil-square me-2"></i>
-                                    Edit
-                                </button>
-                                <button
-                                    className='btn btn-secondary bg-transparent btn-sm rounded-pill text-danger'
-                                    onClick={handleDelete}>
-                                    <i className="bi bi-trash me-2"></i>
-                                    Delete
-                                </button>
-                            </>
+                            <button
+                                className='btn btn-secondary bg-transparent btn-sm rounded-pill text-danger'
+                                onClick={handleDelete}>
+                                <i className="bi bi-trash me-2"></i>
+                                Delete
+                            </button>
                         }
                     </div>
                 </div>

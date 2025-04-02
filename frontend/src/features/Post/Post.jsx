@@ -63,7 +63,10 @@ export function Post({ postDetails }) {
                 comment: comment
             }
         })
-            .then(_ => navigate({ to: `/post/${postDetails._id}` }))
+            .then(_ => {
+                setComment('');
+                navigate({ to: `/post/${postDetails._id}` })
+            })
             .catch(err => {
                 if (err.status === 401 || err.status === 403) {
                     navigate({ to: '/login' })
@@ -135,22 +138,24 @@ export function Post({ postDetails }) {
                     </button>
                 }
                 {
-                    // only display these when user is the owner of the post OR user is an admin
+                    // only display edit when user is the owner of the post
+                    currentUser && currentUser.uid === postDetails.user._id &&
+                    <Link
+                        className='btn btn-secondary rounded-pill fw-bold'
+                        to={`/edit/${postDetails._id}`}>
+                        <i className="bi bi-pencil-square me-2"></i>
+                        Edit
+                    </Link>
+                }
+                {
+                    // post can be deleted by owner OR admin
                     currentUser && (currentUser.uid === postDetails.user._id || currentUser.isAdmin) &&
-                    <>
-                        <Link
-                            className='btn btn-secondary rounded-pill fw-bold'
-                            to={`/edit/${postDetails._id}`}>
-                            <i className="bi bi-pencil-square me-2"></i>
-                            Edit
-                        </Link>
-                        <button
-                            className='btn btn-secondary rounded-pill text-danger fw-bold'
-                            onClick={handleDelete}>
-                            <i className="bi bi-trash me-2"></i>
-                            Delete
-                        </button>
-                    </>
+                    <button
+                        className='btn btn-secondary rounded-pill text-danger fw-bold'
+                        onClick={handleDelete}>
+                        <i className="bi bi-trash me-2"></i>
+                        Delete
+                    </button>
                 }
             </div>
             {/* Comments Section */}

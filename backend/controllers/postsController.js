@@ -158,8 +158,9 @@ const deletePost = async (req, res, next) => {
         const userID = req.body.auth;
         const postID = req.params.id;
 
-        // TODO: once admin is done, change this
-        const deletedPost = await Post.findOneAndDelete({ _id: postID, user: userID });// ensure the author is the one deleting it
+        const deletedPost = req.body.admin ?
+            await Post.findByIdAndDelete(postID) : // since its an admin deleting it, no need for check
+            await Post.findOneAndDelete({ _id: postID, user: userID });// ensure the author is the one deleting it
 
         if (!deletedPost) {
             return res.status(404).json({ message: "Post not found" });
