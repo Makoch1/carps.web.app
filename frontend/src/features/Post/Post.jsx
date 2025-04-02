@@ -113,13 +113,13 @@ export function Post({ postDetails }) {
             <div className='d-flex gap-3'>
                 <div className='d-flex align-items-center bg-secondary rounded-pill'>
                     <button
-                        className='btn bg-transparent btn-outline-primary border-0'
+                        className='btn bg-transparent btn-outline-info border-0'
                         onClick={handleUpvote}>
                         <i className='bi bi-chevron-up'></i>
                     </button>
                     <span className='mx-2 fw-bold' style={{ color: upvoteColor() }}>{upvotes + upvote}</span>
                     <button
-                        className='btn bg-transparent btn-outline-primary border-0'
+                        className='btn bg-transparent btn-outline-info border-0'
                         onClick={handleDownvote}>
                         <i className='bi bi-chevron-down'></i>
                     </button>
