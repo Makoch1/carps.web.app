@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+import { MONGODB_URI } from '../config.js';
 
 import { CommentVote } from '../models/commentvote.js';
 
 // local connection
-mongoose.connect("mongodb://localhost:27017/carps");
+mongoose.connect(MONGODB_URI);
 
 const schema = new mongoose.Schema ({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
