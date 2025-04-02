@@ -1,0 +1,34 @@
+GIT Repository for the CARPS website
+
+Repo Link: https://github.com/Makoch1/carps.web.app/new/master
+Website Link: https://carps-8d540.web.app/
+
+To run locally:
+1. Clone the repository
+2. For the backend: Go to ./backend and run "npm run dev"
+3. For the frontend: Go to ./frontend and run "npm run dev"
+
+NOTE: certain features may not work at all due to the lack of .env file
+
+Deployment information:
+- Backend: render web service
+- Frontend: firebase hosting
+- Database: MongoDB Atlas
+- Storage (for storing profile pictures): Cloudinary
+
+Stack Information:
+- MERN Stack
+- MongoDB
+- Express
+- React
+- Node
+
+Frontend packages / frameworks used:
+- Reactjs
+- Vite
+- Tanstack Router
+- Bootstrap + Bootstrap Icons + SCSS
+
+Backend packages / frameworks used:
+- Mongoose
+- JWT
