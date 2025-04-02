@@ -13,6 +13,5 @@ export default defineConfig({
     plugins: [
         react(),
         TanStackRouterVite(),
-    ],
-    base: "/carps.web.app"
+    ]
 })

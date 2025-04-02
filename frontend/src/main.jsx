@@ -5,7 +5,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 import axios from 'axios'
 
-const router = createRouter({ routeTree, basepath: 'carps.web.app/' })
+const router = createRouter({ routeTree })
 
 axios.defaults.withCredentials = true;
 
